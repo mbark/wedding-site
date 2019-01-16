@@ -17,6 +17,16 @@ module.exports = {
       inject: false
     })
   ],
+  module: {
+    rules: [
+       {
+         test: /\.(png|svg|jpg|gif)$/,
+         use: [
+           'file-loader'
+         ]
+       }
+    ]
+  },
   devServer: {
     compress: true,
     contentBase: outputDir,

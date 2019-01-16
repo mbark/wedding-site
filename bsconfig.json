@@ -3,7 +3,7 @@
   comma. If this screws with your editor highlighting, please tell us by filing
   an issue! */
 {
-  "name": "react-template",
+  "name": "wedding-site",
   "reason": {
     "react-jsx": 2
   },
@@ -19,7 +19,8 @@
   "suffix": ".bs.js",
   "namespace": true,
   "bs-dependencies": [
-    "reason-react"
+    "reason-react",
+    "bs-css"
   ],
   "refmt": 3
 }
