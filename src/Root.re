@@ -1,3 +1,5 @@
+Assets.requireCss("normalize.css");
+
 let component = ReasonReact.statelessComponent("Root");
 
 let rootStyle =
@@ -34,7 +36,7 @@ let textStyle = Css.(style([
 let make = _children => {
   ...component,
 
-  render: _self => {
+  render: _self => { 
     <div className=rootStyle>
       <div className=textStyle>
         <Bird />
