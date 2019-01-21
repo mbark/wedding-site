@@ -5,12 +5,12 @@ let containerStyle = Css.(style([
     flexDirection(column),
     marginLeft(auto),
     alignItems(center),
-    marginTop(rem(2.0)),
-    marginRight(rem(4.0)),
+    /* marginTop(rem(2.0)),
+    marginRight(rem(4.0)), */
 ]))
 
 let imgStyle = Css.(style([
-    maxWidth(px(250)),
+    maxWidth(px(150)),
 ]));
 
 let make = _children => {

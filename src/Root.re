@@ -7,8 +7,8 @@ let rootStyle =
     style([
       display(`flex),
       justifyContent(spaceBetween),
-      height(vh(100.0)),
-      flexWrap(wrapReverse)
+      flexDirection(`column),
+      height(pct(100.)),
     ])
   );
 
@@ -17,35 +17,42 @@ let headerStyle =
     style([
       textTransform(uppercase),
       fontWeight(bolder),
-      marginTop(auto),
       wordSpacing(vw(100.0)),
-      fontSize(rem(7.0)),
+      fontSize(rem(4.0)),
       lineHeight(em(0.9)),
+      marginTop(`zero),
       marginBottom(rem(0.50)),
     ])
   );
 
-let textStyle = Css.(style([
-    display(`flex),
-    flexDirection(column),
-    marginLeft(rem(6.0)),
-    marginBottom(rem(3.0)),
-    flexBasis(pct(60.0)),
-]));
+let textStyle =
+  Css.(
+    style([
+      display(`flex),
+      flexDirection(column),
+      marginLeft(rem(1.8)),
+      marginTop(`auto),
+      marginBottom(rem(6.)),
+    ])
+  );
+
+let gettingStyle = Css.(style([position(`relative)]));
 
 let make = _children => {
   ...component,
 
-  render: _self => { 
-    <div className=rootStyle>
-      <div className=textStyle>
-        <Bird />
-        <h1 className=headerStyle>
-          {ReasonReact.string("We are getting married.")}
-        </h1>
-        <Countdown />
+  render: _self => {
+    <FullHeightDiv>
+      <div className=rootStyle>
+        <Us />
+        <div className=textStyle>
+          <Bird />
+          <h1 className=headerStyle>
+            {ReasonReact.string("We are getting married")}
+          </h1>
+          <Countdown />
+        </div>
       </div>
-      <Us />
-    </div>;
+    </FullHeightDiv>;
   },
 };

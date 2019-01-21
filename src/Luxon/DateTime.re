@@ -26,8 +26,6 @@ external localYMD: (int, int, int) => t = "local";
 
 [@bs.module "luxon"] [@bs.scope "DateTime"] external local: unit => t = "";
 
-[@bs.module "luxon"] [@bs.scope "DateTime"] external diff: unit => t = "";
-
 [@bs.send.pipe: t]
 external diff:
   (

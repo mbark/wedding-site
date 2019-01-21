@@ -1,8 +1,7 @@
 let component = ReasonReact.statelessComponent("Bird");
 
 let imgStyle = Css.(style([
-    maxWidth(px(50)),
-    marginTop(rem(2.)),
+    maxWidth(px(60)),
 ]));
 
 let make = _children => {

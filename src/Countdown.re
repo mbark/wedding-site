@@ -5,6 +5,7 @@ type action =
 
 let style = Css.(style([
     textTransform(uppercase),
+    fontSize(em(0.7)),
 ]));
 
 let component = ReasonReact.reducerComponent("Countdown");
@@ -31,7 +32,7 @@ let make = _children => {
     let durationLeft: Duration.t =
         DateTime.diff(self.state.now, `second)(countdownTo);
 
-    let withUnit = l => Belt.List.zipBy(l, ["days", "hours", "minutes", "seconds"], ((a: string, b: string) => (a ++ " " ++ b)));
+    let withUnit = l => Belt.List.zipBy(l, ["days", "hours", "minutes and", "seconds"], ((a: string, b: string) => (a ++ " " ++ b)));
 
     let countdown = Duration.toFormat("d h m s")(durationLeft)
         |> Js.String.split(" ")
