@@ -6,7 +6,7 @@ let rootStyle =
   Css.(
     style([
       display(`flex),
-      justifyContent(spaceBetween),
+      justifyContent(`spaceBetween),
       flexDirection(`column),
       height(pct(100.)),
     ])
