@@ -43,10 +43,10 @@ let make = _children => {
 
   render: _self => {
     <FullHeightDiv>
+      <Bird />
       <div className=rootStyle>
         <Us />
         <div className=textStyle>
-          <Bird />
           <h1 className=headerStyle>
             {ReasonReact.string("We are getting married")}
           </h1>
