@@ -4,8 +4,8 @@ let wrapperStyle =
   Css.(
     style([
       position(`absolute),
-      height(rem(5.)),
-      left(rem(3.)),
+      height(rem(7.)),
+      left(rem(2.)),
       display(`flex),
       before([
         contentRule(""),
@@ -13,13 +13,13 @@ let wrapperStyle =
         height(pct(100.)),
         borderRight(rem(0.05), solid, black),
         left(pct(47.5)),
-        bottom(px(20)),
+        bottom(pct(25.)),
         zIndex(-1),
       ]),
     ])
   );
 
-let imgStyle = Css.(style([maxWidth(px(60)), marginTop(`auto)]));
+let imgStyle = Css.(style([maxWidth(rem(6.)), marginTop(`auto)]));
 
 let make = _children => {
   ...component,

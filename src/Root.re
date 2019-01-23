@@ -30,7 +30,7 @@ let textStyle =
     style([
       display(`flex),
       flexDirection(column),
-      marginLeft(rem(1.8)),
+      marginLeft(rem(1.5)),
       marginTop(`auto),
       marginBottom(rem(6.)),
     ])
