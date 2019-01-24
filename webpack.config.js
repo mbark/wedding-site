@@ -1,7 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const outputDir = path.join(__dirname, 'build/');
+const ShakePlugin = require('webpack-common-shake').Plugin;
+const TerserPlugin = require('terser-webpack-plugin');
 
+const outputDir = path.join(__dirname, 'build/');
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
@@ -16,8 +18,13 @@ module.exports = {
       template: 'src/index.html',
       favicon: 'images/favicon.ico',
       inject: false
-    })
+    }),
+    isProd ? new ShakePlugin() : null,
   ],
+  optimization: {
+    minimize: isProd,
+    minimizer: [new TerserPlugin()],
+  },
   module: {
     rules: [
       {
@@ -28,10 +35,8 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: [
-          'file-loader'
-        ]
+        test: /\.(png|jpg|gif)$/i,
+        loader: 'url-loader',
       }
     ]
   },
