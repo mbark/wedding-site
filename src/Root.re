@@ -9,6 +9,7 @@ let rootStyle =
       justifyContent(`spaceBetween),
       flexDirection(`column),
       height(pct(100.)),
+      overflow(`hidden),
     ])
   );
 
@@ -35,8 +36,6 @@ let textStyle =
       marginBottom(rem(6.)),
     ])
   );
-
-let gettingStyle = Css.(style([position(`relative)]));
 
 let make = _children => {
   ...component,

@@ -8,12 +8,21 @@ let containerStyle = Css.(style([
 ]))
 
 let imgStyle = Css.(style([
-    maxWidth(rem(10.)),
+    width(rem(10.)),
 ]));
 
 let dateStyle = Css.(style([
   fontSize(rem(0.6)),
 ]));
+
+let poses =
+  Posed.poses(
+    ~hoverable=true,
+    ~init=Posed.scalePose(~scale=0.4, ()),
+    ~hover=Posed.scalePose(~scale=1.2, ()),
+    ~full=Posed.scalePose(~scale=1.0, ~transition=Posed.transitionType(~duration=300, ~type_="spring"), ()),
+    ()
+  );
 
 let make = _children => {
   ...component,
@@ -21,10 +30,10 @@ let make = _children => {
   render: _self => {
     let image = Assets.require("../images/us.png");
 
-    <div className=containerStyle>
+    <Posed poses initialPose="init" pose="full" className=containerStyle>
         <img className=imgStyle src=image alt="Us as bitmojis" />
         <div>{ReasonReact.string("Martin & Lisa")}</div>
         <div className=dateStyle>{ReasonReact.string("September 28")}</div>
-    </div>
+    </Posed>
   },
 };

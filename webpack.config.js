@@ -20,7 +20,7 @@ module.exports = {
       inject: false
     }),
     isProd ? new ShakePlugin() : null,
-  ],
+  ].filter(Boolean),
   optimization: {
     minimize: isProd,
     minimizer: [new TerserPlugin()],
