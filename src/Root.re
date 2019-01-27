@@ -9,7 +9,7 @@ let rootStyle =
       justifyContent(`spaceBetween),
       flexDirection(`column),
       height(pct(100.)),
-      overflow(`hidden),
+      overflowX(`hidden),
     ])
   );
 
