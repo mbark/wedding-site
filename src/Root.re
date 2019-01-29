@@ -1,5 +1,4 @@
 Assets.requireCss("normalize.css");
-
 let component = ReasonReact.statelessComponent("Root");
 
 let rootStyle =
@@ -18,11 +17,11 @@ let headerStyle =
     style([
       textTransform(uppercase),
       fontWeight(bolder),
-      wordSpacing(vw(100.0)),
       fontSize(rem(4.0)),
       lineHeight(em(0.9)),
       marginTop(`zero),
       marginBottom(rem(0.50)),
+      wordSpacing(vw(100.)),
     ])
   );
 
@@ -46,9 +45,7 @@ let make = _children => {
       <div className=rootStyle>
         <Us />
         <div className=textStyle>
-          <h1 className=headerStyle>
-            {ReasonReact.string("We are getting married")}
-          </h1>
+          <h1 className=headerStyle>{ReasonReact.string("We are getting married")}</h1>
           <Countdown />
         </div>
       </div>

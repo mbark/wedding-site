@@ -21,13 +21,27 @@ let wrapperStyle =
 
 let imgStyle = Css.(style([maxWidth(rem(6.)), marginTop(`auto)]));
 
+let poses =
+  Posed.poses(
+    ~hoverable=true,
+    ~init=Posed.scalePose(~y="-100%", ()),
+    ~hover=Posed.scalePose(~y="-20%", ()),
+    ~full=
+      Posed.scalePose(
+        ~y="0%",
+        ~transition=Posed.transitionType(~duration=500, ~type_="spring"),
+        (),
+      ),
+    (),
+  );
+
 let make = _children => {
   ...component,
 
   render: _self => {
     let image = Assets.require("../images/bird.png");
-    <div className=wrapperStyle>
+    <Posed poses initialPose="init" pose="full" className=wrapperStyle>
       <img className=imgStyle src=image alt="Paper crane bird" />
-    </div>;
+    </Posed>;
   },
 };
