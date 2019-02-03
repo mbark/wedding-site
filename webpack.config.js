@@ -16,7 +16,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-      favicon: 'images/favicon.ico',
+      favicon: 'resources/images/favicon.ico',
       inject: false
     }),
     isProd ? new ShakePlugin() : null,
@@ -37,9 +37,19 @@ module.exports = {
       {
         test: /\.(png|jpg|gif)$/i,
         loader: 'url-loader',
-      }
+      },
+      {
+        test: /\.(ttf|otf|eot|woff|woff2)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: "[name].[ext]",
+          },
+        },
+      },
     ]
   },
+  devtool: isProd ? false : 'eval-source-map',
   devServer: {
     compress: true,
     contentBase: outputDir,

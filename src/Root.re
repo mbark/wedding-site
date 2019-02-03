@@ -22,6 +22,7 @@ let headerStyle =
       marginTop(`zero),
       marginBottom(rem(0.50)),
       wordSpacing(vw(100.)),
+      fontFamily("Mont"),
     ])
   );
 
@@ -36,6 +37,22 @@ let textStyle =
     ])
   );
 
+let countdownPoses =
+  Posed.(
+    poses(
+      ~init=poseT(~y="-20%", ~opacity=0., ()),
+      ~idle=
+        poseT(
+          ~y="0",
+          ~opacity=1.,
+          ~delay=600,
+          ~transition=Posed.transitionT(~duration=500, ()),
+          (),
+        ),
+      (),
+    )
+  );
+
 let make = _children => {
   ...component,
 
@@ -44,10 +61,17 @@ let make = _children => {
       <Bird />
       <div className=rootStyle>
         <Us />
-        <div className=textStyle>
-          <h1 className=headerStyle>{ReasonReact.string("We are getting married")}</h1>
+        <Posed
+          element=Posed.div
+          initialPose="init"
+          pose="idle"
+          poses=countdownPoses
+          className=textStyle>
+          <h1 className=headerStyle>
+            {ReasonReact.string("We are getting married")}
+          </h1>
           <Countdown />
-        </div>
+        </Posed>
       </div>
     </FullHeightDiv>;
   },

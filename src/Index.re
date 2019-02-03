@@ -14,13 +14,31 @@ Css.(
   )
 );
 
+let heavy = Assets.require("../resources/fonts/MontDemo-Heavy.otf");
+
 Css.(
   global(
     "body",
     [
       backgroundColor(Theme.peach),
       color(Theme.crimson),
-      fontFamily("Bitter, serif"),
+      fontFamily("Open Sans"),
+    ],
+  )
+);
+
+Css.(
+  global(
+    "h1, h2, h3, h4, h5",
+    [
+      fontFamily(
+        fontFace(
+          ~fontFamily="Mont",
+          ~src=[`url(heavy)],
+          ~fontWeight=`bold,
+          (),
+        ),
+      ),
     ],
   )
 );

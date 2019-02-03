@@ -44,6 +44,8 @@ let make = _children => {
       |> Belt.List.toArray
       |> Js.Array.joinWith(" ");
 
-    <div className=style>{ReasonReact.string("In " ++ countdown)}</div>;
+    <div className=style>
+      {ReasonReact.string("In " ++ countdown)}
+    </div>;
   },
 };

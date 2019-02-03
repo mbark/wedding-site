@@ -7,6 +7,7 @@ let containerStyle =
       flexDirection(column),
       marginLeft(auto),
       alignItems(center),
+      marginRight(rem(1.)),
     ])
   );
 
@@ -14,29 +15,38 @@ let imgStyle = Css.(style([width(rem(10.))]));
 
 let dateStyle = Css.(style([fontSize(rem(0.6))]));
 
+let headerStyle = Css.(style([marginBottom(`zero), marginTop(`zero), fontSize(em(1.2))]));
+
 let poses =
-  Posed.poses(
-    ~hoverable=true,
-    ~init=Posed.scalePose(~scale=0.4, ()),
-    ~hover=Posed.scalePose(~scale=1.2, ()),
-    ~full=
-      Posed.scalePose(
-        ~scale=1.0,
-        ~transition=Posed.transitionType(~duration=300, ~type_="spring"),
-        (),
-      ),
-    (),
+  Posed.(
+    poses(
+      ~hoverable=true,
+      ~init=poseT(~scale=0.4, ()),
+      ~hover=poseT(~scale=1.2, ()),
+      ~idle=
+        poseT(
+          ~scale=1.0,
+          ~transition=Posed.transitionT(~duration=300, ~type_="spring", ()),
+          (),
+        ),
+      (),
+    )
   );
 
 let make = _children => {
   ...component,
 
   render: _self => {
-    let image = Assets.require("../images/us.png");
+    let image = Assets.require("../resources/images/us.png");
 
-    <Posed poses initialPose="init" pose="full" className=containerStyle>
+    <Posed
+      poses
+      element=Posed.div
+      initialPose="init"
+      pose="idle"
+      className=containerStyle>
       <img className=imgStyle src=image alt="Us as bitmojis" />
-      <div> {ReasonReact.string("Martin & Lisa")} </div>
+      <h2 className=headerStyle> {ReasonReact.string("Martin & Lisa")} </h2>
       <div className=dateStyle> {ReasonReact.string("September 28")} </div>
     </Posed>;
   },
