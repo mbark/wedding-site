@@ -15,7 +15,8 @@ let imgStyle = Css.(style([width(rem(10.))]));
 
 let dateStyle = Css.(style([fontSize(rem(0.6))]));
 
-let headerStyle = Css.(style([marginBottom(`zero), marginTop(`zero), fontSize(em(1.2))]));
+let headerStyle =
+  Css.(style([marginBottom(`zero), marginTop(`zero), fontSize(em(1.2))]));
 
 let poses =
   Posed.(
@@ -37,7 +38,9 @@ let make = _children => {
   ...component,
 
   render: _self => {
-    let image = Assets.require("../resources/images/us.png");
+    let image = Assets.requireImg("../resources/images/us.png");
+
+    Js.log(image);
 
     <Posed
       poses
@@ -45,7 +48,12 @@ let make = _children => {
       initialPose="init"
       pose="idle"
       className=containerStyle>
-      <img className=imgStyle src=image alt="Us as bitmojis" />
+      <img
+        className=imgStyle
+        src={Assets.srcGet(image)}
+        srcSet={Assets.srcSetGet(image)}
+        alt="Us as bitmojis"
+      />
       <h2 className=headerStyle> {ReasonReact.string("Martin & Lisa")} </h2>
       <div className=dateStyle> {ReasonReact.string("September 28")} </div>
     </Posed>;

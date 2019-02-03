@@ -19,7 +19,7 @@ let wrapperStyle =
     ])
   );
 
-let imgStyle = Css.(style([maxWidth(rem(6.)), marginTop(`auto)]));
+let imgStyle = Css.(style([width(rem(6.)), marginTop(`auto)]));
 
 let poses =
   Posed.(
@@ -41,14 +41,22 @@ let make = _children => {
   ...component,
 
   render: _self => {
-    let image = Assets.require("../resources/images/bird.png");
+    let image = Assets.requireImg("../resources/images/bird.png");
+
+  Js.log(image);
+
     <Posed
       poses
       element=Posed.div
       initialPose="init"
       pose="idle"
       className=wrapperStyle>
-      <img className=imgStyle src=image alt="Paper crane bird" />
+      <img
+        className=imgStyle
+        src={Assets.srcGet(image)}
+        srcSet={Assets.srcSetGet(image)}
+        alt="Paper crane bird"
+      />
     </Posed>;
   },
 };
