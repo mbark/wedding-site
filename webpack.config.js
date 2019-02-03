@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ShakePlugin = require('webpack-common-shake').Plugin;
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -17,7 +18,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       favicon: 'resources/images/favicon.ico',
-      inject: false
+    }),
+    new ScriptExtHtmlWebpackPlugin({
+      preload: {
+        test: /\.js$/
+      }
     }),
     isProd ? new ShakePlugin() : null,
   ].filter(Boolean),
@@ -35,8 +40,17 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jpg|gif)$/i,
-        loader: 'url-loader',
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        use: [
+          'file-loader',
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              bypassOnDebug: true,
+              disable: true,
+            },
+          },
+        ],
       },
       {
         test: /\.(ttf|otf|eot|woff|woff2)$/,

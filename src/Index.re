@@ -14,7 +14,12 @@ Css.(
   )
 );
 
-let heavy = Assets.require("../resources/fonts/MontDemo-Heavy.otf");
+let mont =
+  ["woff2", "woff", "otf", "eot"]
+  |> List.map(ext =>
+       Assets.require("../resources/fonts/MontDemo-Heavy." ++ ext)
+     )
+  |> List.map(Css.url);
 
 Css.(
   global(
@@ -32,12 +37,7 @@ Css.(
     "h1, h2, h3, h4, h5",
     [
       fontFamily(
-        fontFace(
-          ~fontFamily="Mont",
-          ~src=[`url(heavy)],
-          ~fontWeight=`bold,
-          (),
-        ),
+        fontFace(~fontFamily="Mont", ~src=mont, ~fontWeight=`bold, ()),
       ),
     ],
   )
