@@ -43,8 +43,6 @@ let make = _children => {
   render: _self => {
     let image = Assets.requireImg("../resources/images/bird.png");
 
-  Js.log(image);
-
     <Posed
       poses
       element=Posed.div
@@ -55,7 +53,7 @@ let make = _children => {
         className=imgStyle
         src={Assets.srcGet(image)}
         srcSet={Assets.srcSetGet(image)}
-        alt="Paper crane bird"
+        alt=""
       />
     </Posed>;
   },

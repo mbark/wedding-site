@@ -5,6 +5,7 @@
 type img = {
     src: string,
     srcSet: string,
+    placeholder: string,
 };
 
 [@bs.val] external requireImg: string => img = "require";

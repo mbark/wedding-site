@@ -45,7 +45,7 @@ let countdownPoses =
         poseT(
           ~y="0",
           ~opacity=1.,
-          ~delay=600,
+          ~delay=300,
           ~transition=Posed.transitionT(~duration=500, ()),
           (),
         ),

@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const ImageMinPlugin = require('imagemin-webpack-plugin').default;
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const ShakePlugin = require('webpack-common-shake').Plugin;
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -12,23 +13,38 @@ module.exports = {
   mode: isProd ? 'production' : 'development',
   output: {
     path: outputDir,
-    filename: 'Index.js'
+    filename: '[name].[contenthash].js',
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       favicon: 'resources/images/favicon.ico',
     }),
-    new ScriptExtHtmlWebpackPlugin({
-      preload: {
-        test: /\.js$/
+    new PreloadWebpackPlugin({
+      include: 'allAssets',
+      fileBlacklist: [/\.png/],
+      as(entry) {
+        if (/\.css$/.test(entry)) return 'style';
+        if (/\.(woff|woff2|eot|otf)$/.test(entry)) return 'font';
+        if (/\.(png|jpg|gif|ico)$/.test(entry)) return 'image';
+        return 'script';
       }
     }),
+    new ImageMinPlugin(({
+      test: /\.(png|jpg|gif)$/,
+      disable: !isProd,
+      pngquant: {
+        quality: '95-100'
+      }
+    })),
     isProd ? new ShakePlugin() : null,
   ].filter(Boolean),
   optimization: {
     minimize: isProd,
     minimizer: [new TerserPlugin()],
+    splitChunks: {
+      chunks: 'all'
+    }
   },
   module: {
     rules: [
@@ -51,7 +67,7 @@ module.exports = {
           {
             loader: 'responsive-loader',
             options: {
-              sizes: [50, 100, 150, 300],
+              sizes: [100, 300, 500],
             }
           },
           {
