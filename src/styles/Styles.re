@@ -7,4 +7,6 @@ module Theme = {
     let peach = hex("F2D6CC");
     let forest = hex("2F4F07");
     let eucalyptus = hex("89A673");
+
+    let animationDuration = 500;
 };

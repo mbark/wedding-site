@@ -20,9 +20,17 @@ let headerStyle =
       fontSize(rem(4.0)),
       lineHeight(em(0.9)),
       marginTop(`zero),
-      marginBottom(rem(0.50)),
+      marginBottom(`zero),
       wordSpacing(vw(100.)),
       fontFamily("Mont"),
+      animationName(
+        keyframes([
+          (0, [transform(translateX(px(-50))), opacity(0.)]),
+          (100, [transform(translateX(pct(0.))), opacity(1.)]),
+        ]),
+      ),
+      animationDuration(500),
+      animationFillMode(`both),
     ])
   );
 
@@ -37,20 +45,19 @@ let textStyle =
     ])
   );
 
-let countdownPoses =
-  Posed.(
-    poses(
-      ~init=poseT(~y="-20%", ~opacity=0., ()),
-      ~idle=
-        poseT(
-          ~y="0",
-          ~opacity=1.,
-          ~delay=300,
-          ~transition=Posed.transitionT(~duration=500, ()),
-          (),
-        ),
-      (),
-    )
+let countdownStyle =
+  Css.(
+    style([
+      animationName(
+        keyframes([
+          (0, [transform(translateY(px(-30))), opacity(0.)]),
+          (100, [transform(translateY(pct(0.))), opacity(1.)]),
+        ]),
+      ),
+      animationDuration(500),
+      animationFillMode(`both),
+      animationDelay(500),
+    ])
   );
 
 let make = _children => {
@@ -61,17 +68,12 @@ let make = _children => {
       <Bird />
       <div className=rootStyle>
         <Us />
-        <Posed
-          element=Posed.div
-          initialPose="init"
-          pose="idle"
-          poses=countdownPoses
-          className=textStyle>
+        <div className=textStyle>
           <h1 className=headerStyle>
             {ReasonReact.string("We are getting married")}
           </h1>
-          <Countdown />
-        </Posed>
+          <div className=countdownStyle> <Countdown /> </div>
+        </div>
       </div>
     </FullHeightDiv>;
   },
