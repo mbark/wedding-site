@@ -1,79 +1,59 @@
-Assets.requireCss("normalize.css");
-let component = ReasonReact.statelessComponent("Root");
+type route =
+  | Frontpage
+  | RSVPForm;
 
-let rootStyle =
-  Css.(
-    style([
-      display(`flex),
-      justifyContent(`spaceBetween),
-      flexDirection(`column),
-      height(pct(100.)),
-      overflowX(`hidden),
-    ])
-  );
+type state = {nowShowing: route};
 
-let headerStyle =
-  Css.(
-    style([
-      textTransform(uppercase),
-      fontWeight(bolder),
-      fontSize(rem(4.0)),
-      lineHeight(em(0.9)),
-      marginTop(`zero),
-      marginBottom(`zero),
-      wordSpacing(vw(100.)),
-      fontFamily("Mont"),
-      animationName(
-        keyframes([
-          (0, [transform(translateX(px(-50))), opacity(0.)]),
-          (100, [transform(translateX(pct(0.))), opacity(1.)]),
-        ]),
-      ),
-      animationDuration(500),
-      animationFillMode(`both),
-    ])
-  );
+type action =
+  | ChangeRoute(route);
 
-let textStyle =
-  Css.(
-    style([
-      display(`flex),
-      flexDirection(column),
-      marginLeft(rem(1.5)),
-      marginTop(`auto),
-      marginBottom(rem(6.)),
-    ])
-  );
+let mapUrlToRoute = (url: ReasonReact.Router.url) =>
+  switch (url.path) {
+  | ["rsvp"] => RSVPForm
+  | _ => Frontpage
+  };
 
-let countdownStyle =
-  Css.(
-    style([
-      animationName(
-        keyframes([
-          (0, [transform(translateY(px(-30))), opacity(0.)]),
-          (100, [transform(translateY(pct(0.))), opacity(1.)]),
-        ]),
-      ),
-      animationDuration(500),
-      animationFillMode(`both),
-      animationDelay(500),
-    ])
-  );
+let reducer:
+  (action, state) =>
+  ReasonReact.update(state, ReasonReact.noRetainedProps, action) =
+  (action, _state) =>
+    switch (action) {
+    | ChangeRoute(route) => ReasonReact.Update({nowShowing: route})
+    };
 
+let component = ReasonReact.reducerComponent("Root");
 let make = _children => {
   ...component,
 
-  render: _self => {
+  initialState: () => {nowShowing: Frontpage},
+
+  reducer,
+
+  didMount: self => {
+    let id =
+      ReasonReact.Router.watchUrl(url =>
+        self.send(ChangeRoute(url |> mapUrlToRoute))
+      );
+    self.onUnmount(() => ReasonReact.Router.unwatchUrl(id));
+  },
+
+  render: self => {
+    let rootStyle =
+      Css.(
+        style([
+          display(`flex),
+          justifyContent(`spaceBetween),
+          flexDirection(`column),
+          height(pct(100.)),
+          overflowX(`hidden),
+        ])
+      );
+
     <FullHeightDiv>
       <Bird />
       <div className=rootStyle>
         <Us />
-        <div className=textStyle>
-          <h1 className=headerStyle>
-            {ReasonReact.string("We are getting married")}
-          </h1>
-          <div className=countdownStyle> <Countdown /> </div>
-        </div>
+        { self.state.nowShowing == Frontpage ? <Frontpage /> : <RSVP /> }
       </div>
     </FullHeightDiv>;
   },

@@ -1,3 +1,5 @@
+Assets.requireCss("normalize.css");
+
 open Styles;
 
 Css.(
@@ -14,13 +16,6 @@ Css.(
   )
 );
 
-let mont =
-  ["woff2", "woff", "otf", "eot"]
-  |> List.map(ext =>
-       Assets.require("../resources/fonts/MontDemo-Heavy." ++ ext)
-     )
-  |> List.map(Css.url);
-
 Css.(
   global(
     "body",
@@ -32,15 +27,23 @@ Css.(
   )
 );
 
+Css.(global("h1, h2, h3, h4, h5", [Styles.fontMont]));
+
 Css.(
   global(
-    "h1, h2, h3, h4, h5",
-    [
-      fontFamily(
-        fontFace(~fontFamily="Mont", ~src=mont, ~fontWeight=`bold, ()),
-      ),
-    ],
+    "h1",
+    [textTransform(`uppercase), lineHeight(em(0.9))],
   )
 );
 
+[@bs.val] [@bs.scope "module"] external isHotEnabled: bool = "hot";
+
+[@bs.val] [@bs.scope ("module", "hot")]
+external hotAccept: unit => unit = "accept";
+
 ReactDOMRe.renderToElementWithId(<Root />, "root");
+ReasonReact.Router.push("");
+
+if (isHotEnabled) {
+  hotAccept();
+};

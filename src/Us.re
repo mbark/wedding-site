@@ -55,7 +55,7 @@ let make = _children => {
 
     let onLoad = _img => {
       self.send(OnLoad);
-      Js.Global.setTimeout(() => self.send(ImageAnimationDone), 500);
+      let _id = Js.Global.setTimeout(() => self.send(ImageAnimationDone), 500);
       ();
     }; 
 

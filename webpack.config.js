@@ -1,9 +1,11 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ImageMinPlugin = require('imagemin-webpack-plugin').default;
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const ShakePlugin = require('webpack-common-shake').Plugin;
 const TerserPlugin = require('terser-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const outputDir = path.join(__dirname, 'build/');
 const isProd = process.env.NODE_ENV === 'production';
@@ -13,9 +15,11 @@ module.exports = {
   mode: isProd ? 'production' : 'development',
   output: {
     path: outputDir,
-    filename: '[name].[contenthash].js',
+    filename: '[name].[hash].js',
   },
   plugins: [
+    isProd ? null : new webpack.HotModuleReplacementPlugin(),
+    new CopyPlugin([{ from: '_redirects', to: outputDir }]),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       favicon: 'resources/images/favicon.ico',
@@ -89,6 +93,7 @@ module.exports = {
   devtool: isProd ? false : 'eval-source-map',
   devServer: {
     compress: true,
+    hot: true,
     contentBase: outputDir,
     port: process.env.PORT || 8000,
     historyApiFallback: true

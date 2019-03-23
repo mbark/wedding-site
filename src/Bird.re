@@ -22,7 +22,7 @@ let make = _children => {
     let wrapperStyle =
       Css.(
         style([
-          position(`absolute),
+          position(`fixed),
           height(rem(7.)),
           left(rem(2.)),
           display(`flex),
