@@ -19,7 +19,7 @@ module.exports = {
   },
   plugins: [
     isProd ? null : new webpack.HotModuleReplacementPlugin(),
-    new CopyPlugin([{ from: '_redirects', to: outputDir }]),
+    new CopyPlugin([{ from: '_redirects', to: outputDir }, { from: 'src/netlify.html', to: outputDir }]),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       favicon: 'resources/images/favicon.ico',

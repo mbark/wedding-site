@@ -12,7 +12,7 @@ let component = ReasonReact.reducerComponent("RSVP");
 let make = _children => {
   ...component,
   initialState: () => {attending: false},
-  reducer: (action, state) =>
+  reducer: (action, _state) =>
     switch (action) {
     | Select(attendance) =>
       ReasonReact.Update({attending: attendance == IsAttending})
@@ -51,6 +51,7 @@ let make = _children => {
               border(px(2), `solid, Styles.Theme.crimson20),
               backgroundClip(`paddingBox),
               padding2(~v=px(4), ~h=px(6)),
+              marginLeft(px(2)),
               color(Styles.Theme.white),
               selector(
                 "&:focus",
@@ -234,7 +235,7 @@ let make = _children => {
           <label className=labelStyle>
             {ReasonReact.string("Food preferences")}
           </label>
-          <input required=true type_="text" />
+          <input name="food-preferences" type_="text" />
         </div>
         <fieldset className=fieldsetStyle>
           <legend className=labelStyle>
@@ -275,9 +276,11 @@ let make = _children => {
 
     let form =
       <form name="rsvp" method="post" className=formStyle>
+        <input type_="hidden" name="form-name" value="rsvp" />
+        <input className=Css.(style([display(`none)])) name="non-human-name" />
         <div className=rowClass>
           <label className=labelStyle> {ReasonReact.string("Name")} </label>
-          <input required=true type_="text" />
+          <input required=true name="name" type_="text" />
         </div>
         <fieldset className=fieldsetStyle>
           <legend className=labelStyle>
@@ -323,7 +326,7 @@ let make = _children => {
       </form>;
 
     let netlifyForm =
-      ReasonReact.cloneElement(form, ~props={"netlify": ""}, [||]);
+      ReasonReact.cloneElement(form, ~props={"netlify": "", "netlify-honeypot": "non-human-name"}, [||]);
 
     <div className=containerStyle>
       <h1 className=headerStyle> {ReasonReact.string("RSVP")} </h1>
