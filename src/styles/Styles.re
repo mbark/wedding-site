@@ -8,6 +8,8 @@ module Theme = {
   let forest = hex("2F4F07");
   let eucalyptus = hex("89A673");
 
+  let crimson20 = rgba(112,15,0, 0.2);
+
   let animationDuration = 500;
 };
 

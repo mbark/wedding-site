@@ -1,8 +1,23 @@
-let component = ReasonReact.statelessComponent("RSVP");
+type attendance =
+  | IsAttending
+  | NotAttending;
+
+type state = {attending: bool};
+
+type action =
+  | Select(attendance);
+
+let component = ReasonReact.reducerComponent("RSVP");
 
 let make = _children => {
   ...component,
-  render: _self => {
+  initialState: () => {attending: false},
+  reducer: (action, state) =>
+    switch (action) {
+    | Select(attendance) =>
+      ReasonReact.Update({attending: attendance == IsAttending})
+    },
+  render: ({state, send}) => {
     let containerStyle =
       Css.(
         style([
@@ -16,18 +31,53 @@ let make = _children => {
     let headerStyle =
       Css.(
         merge([
-          style([alignSelf(`flexStart), marginTop(`zero), marginBottom(rem(2.0))]),
+          style([
+            alignSelf(`flexStart),
+            marginTop(`zero),
+            marginBottom(rem(2.0)),
+          ]),
           Styles.headerAnimation,
+        ])
+      );
+
+    let input =
+      Css.(
+        Css.style([
+          selector(
+            "input[type=text]",
+            [
+              borderRadius(px(6)),
+              backgroundColor(Styles.Theme.crimson20),
+              border(px(2), `solid, Styles.Theme.crimson20),
+              backgroundClip(`paddingBox),
+              padding2(~v=px(4), ~h=px(6)),
+              color(Styles.Theme.white),
+              selector(
+                "&:focus",
+                [
+                  boxShadow(
+                    ~x=`zero,
+                    ~y=`zero,
+                    ~blur=px(4),
+                    Styles.Theme.crimson,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ])
       );
 
     let formStyle =
       Css.(
-        style([
-          display(`flex),
-          flexDirection(`column),
-          paddingBottom(rem(2.)),
-          paddingRight(rem(2.)),
+        merge([
+          style([
+            display(`flex),
+            flexDirection(`column),
+            paddingBottom(rem(2.)),
+            paddingRight(rem(2.)),
+          ]),
+          input,
         ])
       );
 
@@ -35,64 +85,55 @@ let make = _children => {
 
     let rowClass = Css.(style([marginBottom(rem(1.))]));
 
-    let toggleHeight = 20;
-    let togglePadding = 3;
-    let togglerSize = toggleHeight - togglePadding * 2;
-
     let toggle =
       Css.(
         merge([
-          style([display(`flex), alignItems(`center)]),
           style([
             selector(
-              "input[type=checkbox]",
+              "input[type=radio]",
               [
                 height(`zero),
                 width(`zero),
-                visibility(`hidden),
-                display(`none),
+                position(`absolute),
+                opacity(0.0),
+                bottom(`zero),
+                left(rem(0.3)),
                 selector(
                   "&:checked + label",
-                  [backgroundColor(Styles.Theme.eucalyptus)],
+                  [backgroundColor(Styles.Theme.crimson)],
                 ),
                 selector(
-                  "&:checked + label::after",
-                  [
-                    left(Calc.(-)(pct(100.0), px(togglePadding))),
-                    transform(translateX(pct(-100.0))),
-                  ],
+                  "&:focus + label",
+                  [borderColor(Styles.Theme.crimson)],
                 ),
               ],
             ),
             selector(
-              "input[type=checkbox] + label",
+              "input[type=radio] + label",
               [
                 cursor(`pointer),
                 textIndent(px(-9999)),
-                width(px(toggleHeight * 2)),
-                height(px(toggleHeight)),
-                background(Styles.Theme.rose),
+                width(em(0.6)),
+                height(em(0.6)),
+                border(px(3), `solid, Styles.Theme.crimson20),
                 display(`inlineBlock),
-                borderRadius(px(toggleHeight)),
+                borderRadius(em(0.6)),
                 position(`relative),
-                selector(
-                  "&::after",
-                  [
-                    contentRule(""),
-                    position(`absolute),
-                    top(px(togglePadding)),
-                    left(px(togglePadding)),
-                    width(px(togglerSize)),
-                    height(px(togglerSize)),
-                    background(Styles.Theme.white),
-                    borderRadius(px(toggleHeight - togglePadding * 2)),
-                    transition(~duration=300, "all"),
-                    selector("&:active", [width(px(130))]),
-                  ],
-                ),
+                transition("all", ~duration=200),
+                selector("&:hover", [borderColor(Styles.Theme.crimson)]),
               ],
             ),
           ]),
+        ])
+      );
+
+    let radioWrapper =
+      Css.(
+        style([
+          marginRight(rem(1.0)),
+          display(`inlineFlex),
+          alignItems(`center),
+          position(`relative),
         ])
       );
 
@@ -102,60 +143,191 @@ let make = _children => {
           style([
             borderWidth(`zero),
             padding(`zero),
+            marginLeft(`zero),
             selector("label", [marginRight(rem(0.3))]),
-            display(`flex),
-            flexDirection(`column),
-            selector("& > *", [marginBottom(rem(0.5))]),
           ]),
           rowClass,
+          toggle,
         ])
       );
 
-    <div className=containerStyle>
-      <h1 className=headerStyle> {ReasonReact.string("RSVP")} </h1>
-      <form name="rsvp" className=formStyle>
+    let buttonStyle =
+      Css.(
+        style([
+          padding2(~v=rem(0.5), ~h=rem(1.5)),
+          position(`relative),
+          backgroundColor(Styles.Theme.crimson),
+          color(Styles.Theme.white),
+          borderStyle(`none),
+          unsafe("width", "max-content"),
+          Styles.fontMont,
+          borderRadius(px(8)),
+          boxShadow(
+            ~y=px(4),
+            ~blur=px(4),
+            ~spread=px(1),
+            rgba(0, 0, 0, 0.25),
+          ),
+          cursor(`pointer),
+          transition(~duration=200, "all"),
+          selector(
+            "&::after",
+            [
+              contentRule(""),
+              borderRadius(px(8)),
+              position(`absolute),
+              zIndex(1),
+              top(`zero),
+              left(`zero),
+              width(pct(100.)),
+              height(pct(100.)),
+              boxShadow(
+                ~y=px(8),
+                ~blur=px(4),
+                ~spread=px(2),
+                rgba(0, 0, 0, 0.20),
+              ),
+              opacity(0.0),
+              transition(~duration=200, "all"),
+            ],
+          ),
+          selector(
+            "&:hover",
+            [
+              transform(scale(1.10, 1.10)),
+              selector("&::after", [opacity(1.0)]),
+            ],
+          ),
+          selector(
+            "&:active",
+            [
+              transform(scale(0.95, 0.95)),
+              selector("&::after", [opacity(0.0)]),
+            ],
+          ),
+        ])
+      );
+
+    let extraStyle =
+      Css.(
+        style([
+          maxHeight(`zero),
+          transition(~duration=1000, ~timingFunction=`easeIn, "max-height"),
+          overflow(`hidden),
+          selector(
+            "&:not(:empty)",
+            [
+              maxHeight(vh(100.)),
+              transition(
+                ~duration=1000,
+                ~timingFunction=`easeOut,
+                "max-height",
+              ),
+            ],
+          ),
+        ])
+      );
+
+    let extraInformation =
+      <div>
         <div className=rowClass>
-          <label className=labelStyle> {ReasonReact.string("Name")} </label>
-          <input type_="text" />
+          <label className=labelStyle>
+            {ReasonReact.string("Food preferences")}
+          </label>
+          <input required=true type_="text" />
         </div>
-        <fieldset className=fieldsetStyle>
-          <legend className=labelStyle>
-            {ReasonReact.string("Food preference")}
-          </legend>
-          <div className=toggle>
-            <input type_="checkbox" id="gluten" name="food" />
-            <label htmlFor="gluten" />
-            <label htmlFor="gluten"> {ReasonReact.string("Gluten")} </label>
-          </div>
-          <div className=toggle>
-            <input type_="checkbox" id="lactose" name="food" />
-            <label htmlFor="lactose" />
-            <label htmlFor="lactose"> {ReasonReact.string("Gluten")} </label>
-          </div>
-          <div className=toggle>
-            <input type_="checkbox" id="vegan" name="food" />
-            <label htmlFor="vegan" />
-            <label htmlFor="vegan"> {ReasonReact.string("Vegan")} </label>
-          </div>
-          <div className=toggle>
-            <input type_="checkbox" id="cacao" name="food" />
-            <label htmlFor="cacao" />
-            <label htmlFor="cacao"> {ReasonReact.string("Cacao")} </label>
-          </div>
-        </fieldset>
         <fieldset className=fieldsetStyle>
           <legend className=labelStyle>
             {ReasonReact.string("Alcohol")}
           </legend>
-          <div className=toggle>
-            <input type_="checkbox" id="alcohol" name="alcohol" />
-            <label htmlFor="alcohol" />
+          <div className=radioWrapper>
+            <input
+              type_="radio"
+              required=true
+              id="alcohol-yes"
+              name="alcohol"
+              value="yes"
+            />
+            <label htmlFor="alcohol-yes" />
+            <label htmlFor="alcohol-yes"> {ReasonReact.string("Yes")} </label>
+          </div>
+          <div className=radioWrapper>
+            <input
+              type_="radio"
+              required=true
+              id="alcohol-no"
+              name="alcohol"
+              value="no"
+            />
+            <label htmlFor="alcohol-no" />
+            <label htmlFor="alcohol-no"> {ReasonReact.string("No")} </label>
           </div>
         </fieldset>
-        <button type_="submit">
-          {ReasonReact.string("Sign me up baby!")}
+      </div>;
+
+    let updateAttendance = event =>
+      send(
+        Select(
+          ReactEvent.Form.target(event)##value == "yes"
+            ? IsAttending : NotAttending,
+        ),
+      );
+
+    let form =
+      <form name="rsvp" method="post" className=formStyle>
+        <div className=rowClass>
+          <label className=labelStyle> {ReasonReact.string("Name")} </label>
+          <input required=true type_="text" />
+        </div>
+        <fieldset className=fieldsetStyle>
+          <legend className=labelStyle>
+            {ReasonReact.string("I will be attending!")}
+          </legend>
+          <div>
+            <div className=radioWrapper>
+              <input
+                required=true
+                type_="radio"
+                id="attending"
+                name="attending"
+                value="yes"
+                onChange=updateAttendance
+              />
+              <label htmlFor="attending" />
+              <label htmlFor="attending"> {ReasonReact.string("Yes")} </label>
+            </div>
+            <div className=radioWrapper>
+              <input
+                required=true
+                type_="radio"
+                id="not-attending"
+                name="attending"
+                value="no"
+                onChange=updateAttendance
+              />
+              <label htmlFor="not-attending" />
+              <label htmlFor="not-attending">
+                {ReasonReact.string("No")}
+              </label>
+            </div>
+          </div>
+        </fieldset>
+        <div className=extraStyle>
+          {state.attending ? extraInformation : ReasonReact.null}
+        </div>
+        <button className=buttonStyle name="sign-up" type_="submit">
+          {ReasonReact.string(
+             state.attending ? "Sign me up baby!" : "See you another time?",
+           )}
         </button>
-      </form>
+      </form>;
+
+    let netlifyForm =
+      ReasonReact.cloneElement(form, ~props={"netlify": ""}, [||]);
+
+    <div className=containerStyle>
+      <h1 className=headerStyle> {ReasonReact.string("RSVP")} </h1>
+      netlifyForm
     </div>;
   },
 };
