@@ -3,28 +3,18 @@ import { Global, jsx } from "@emotion/core";
 import css from "@emotion/css/macro";
 import "normalize.css";
 import Div100vh from "react-div-100vh";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Bird from "./Bird";
-import Countdown from "./Countdown";
+import Frontpage from "./Frontpage";
 import MontEot from "./resources/fonts/MontDemo-Heavy.eot";
 import MontOtf from "./resources/fonts/MontDemo-Heavy.otf";
 import MontWoff from "./resources/fonts/MontDemo-Heavy.woff";
 import MontWoff2 from "./resources/fonts/MontDemo-Heavy.woff2";
+import RSVP from "./RSVP";
 import Us from "./Us";
-import { keyframes } from "@emotion/core";
+
 
 export default function App() {
-  const animation = keyframes`
-    from, 0% {
-      transform: translateX(-50px);
-      opacity: 0;
-    }
-
-    to, 100% {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  `;
-
   return (
     <Div100vh
       css={css`
@@ -81,20 +71,13 @@ export default function App() {
           margin-bottom: 6rem;
         `}
       >
-        <h1
-          css={css`
-            margin-top: 0;
-            margin-bottom: 0;
-            word-spacing: 100vw;
-            font-size: 4rem;
-            animation-name: ${animation};
-            animation-duration: 0.5s;
-            animation-fill-mode: both;
-          `}
-        >
-          We are getting married
-        </h1>
-        <Countdown />
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Frontpage} />
+            <Route path="/rsvp" component={RSVP} />
+            <Route component={Frontpage} />
+          </Switch>
+        </Router>
       </div>
     </Div100vh>
   );

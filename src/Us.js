@@ -5,7 +5,7 @@ import { animated, useSpring } from "react-spring";
 import UsImage from "./resources/images/us.png";
 
 export default function Us() {
-  const [props, set, stop] = useSpring(() => ({
+  const [props, set] = useSpring(() => ({
     opacity: 0,
     transform: "scale(0)",
     config: { mass: 1, tension: 200, friction: 15 }
