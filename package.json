@@ -10,6 +10,7 @@
     "react": "^16.8.6",
     "react-div-100vh": "^0.3.2",
     "react-dom": "^16.8.6",
+    "react-dom-confetti": "^0.1.0",
     "react-emotion": "^10.0.0",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
@@ -18,7 +19,7 @@
     "resize-observer-polyfill": "^1.5.1"
   },
   "scripts": {
-    "start": "BROWSER=firefox react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "build:production": "react-scripts build --production",
     "test": "react-scripts test",

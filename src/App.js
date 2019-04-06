@@ -10,8 +10,9 @@ import MontEot from './resources/fonts/MontDemo-Heavy.eot';
 import MontOtf from './resources/fonts/MontDemo-Heavy.otf';
 import MontWoff from './resources/fonts/MontDemo-Heavy.woff';
 import MontWoff2 from './resources/fonts/MontDemo-Heavy.woff2';
-import RSVP from './RSVP';
+import RSVP from './RSVP/RSVP';
 import Us from './Us';
+import OtherAttending from './OtherAttending';
 
 export default function App() {
   return (
@@ -65,14 +66,17 @@ export default function App() {
       <Us />
       <div
         css={css`
-          margin-left: 1.5rem;
           align-self: flex-end;
+          height: 70%;
+          width: 100%;
+          display: flex;
         `}
       >
         <Router>
           <Switch>
             <Route exact path="/" component={Frontpage} />
             <Route path="/rsvp" component={RSVP} />
+            <Route path="/others" component={OtherAttending} />
             <Route component={Frontpage} />
           </Switch>
         </Router>

@@ -37,7 +37,9 @@ export default function Frontpage() {
   return (
     <div
       css={css`
-        margin-bottom: 6rem;
+        margin-bottom: 4rem;
+        margin-left: 2rem;
+        margin-top: auto;
       `}
     >
       <animated.h1

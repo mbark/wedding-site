@@ -4,101 +4,48 @@ import css from '@emotion/css/macro';
 import { useEffect, useRef, useState } from 'react';
 import { animated, useSpring, config } from 'react-spring';
 import ResizeObserver from 'resize-observer-polyfill';
+import Radio from './Radio';
+import Button from './Button';
+import Confetti from 'react-dom-confetti';
 
 export default function RSVP() {
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const onSubmission = event => {
+    event.preventDefault();
+    setFormSubmitted(true);
+  };
+
   const [form, setForm] = useState({
     name: '',
     attending: null,
     food: '',
     alcohol: null,
   });
-  const attending = form.attending === 'Yes';
+  const isAttending = form.attending === 'Yes';
 
-  const previous = usePrevious(attending);
+  const previous = usePrevious(isAttending);
   const [bind, { height: viewHeight }] = useMeasure();
   const { height, opacity, transform } = useSpring({
     from: { height: 0, opacity: 0, transform: 'translate3d(-10%,0,0)' },
     to: {
-      opacity: attending ? 1 : 0,
-      height: attending ? viewHeight : 0,
-      transform: `translate3d(${attending ? 0 : '10%'},0,0)`,
+      opacity: isAttending ? 1 : 0,
+      height: isAttending ? viewHeight : 0,
+      transform: `translate3d(${isAttending ? 0 : '10%'},0,0)`,
     },
     config: config.gentle,
   });
 
-  const validateForm = () => {
-    let valid = true;
-    valid = valid && !!form.name;
-    valid = valid && typeof form.attending === 'string';
-    if (form.attending) {
-      valid = valid && typeof form.alcohol === 'string';
-    }
-
-    return valid;
-  };
-
-  const formValid = validateForm();
+  let formValid = true;
+  formValid = formValid && !!form.name;
+  formValid = formValid && typeof form.attending === 'string';
+  if (form.attending === 'Yes') {
+    formValid = formValid && typeof form.alcohol === 'string';
+  }
 
   let buttonText = 'Fill out required fields to sign up!';
   if (formValid) {
     buttonText = form.attending ? 'Sign me up baby!' : 'See you another time?';
   }
-
-  const toggle = (name, value) => {
-    const id = `${name}-${value}`;
-    const toggleStyle = css`
-      height: 0;
-      width: 0;
-      position: absolute;
-      opacity: 0;
-      bottom: 0;
-      left: 0.3rem;
-      &:checked + label {
-        background-color: #700f00;
-      }
-      &:focus + label {
-        border-color: #700f00;
-      }
-      & + label {
-        cursor: pointer;
-        text-indent: -9999px;
-        width: 0.6em;
-        height: 0.6em;
-        border: 3px solid rgba(112, 15, 0, 0.2);
-        display: inline-block;
-        border-radius: 0.6em;
-        position: relative;
-        transition: all 0.2s;
-        &:hover {
-          border-color: #700f00;
-        }
-      }
-    `;
-
-    return (
-      <div
-        css={css`
-          margin-right: 1rem;
-          display: inline-flex;
-          align-items: center;
-          position: relative;
-        `}
-      >
-        <input
-          required
-          type="radio"
-          id={id}
-          name={name}
-          value={value}
-          css={toggleStyle}
-          checked={value === form[name]}
-          onChange={onRadioChange(value)}
-        />
-        <label htmlFor={id} />
-        <label htmlFor={id}>{value}</label>
-      </div>
-    );
-  };
 
   const inputStyle = css`
     border-radius: 6px;
@@ -128,30 +75,6 @@ export default function RSVP() {
     }
   `;
 
-  const [buttonSpring, setButtonSpring] = useSpring(() => ({
-    transform: 'scale(1)',
-    config: {
-      mass: 1,
-      tension: 300,
-      friction: 15,
-      velocity: 10,
-    },
-  }));
-
-  const buttonStyle = css`
-    padding: 0.5rem 1.5rem;
-    background-color: rgb(112, 15, 0);
-    color: white;
-    border-style: none;
-    font-family: 'Mont';
-    border-radius: 8px;
-    cursor: pointer;
-    &:disabled {
-      cursor: not-allowed;
-      background-color: rgba(112, 15, 0, 0.5);
-    }
-  `;
-
   const labelStyle = css`
     font-family: 'Mont';
     display: block;
@@ -163,18 +86,37 @@ export default function RSVP() {
   const onRadioChange = value => event =>
     setForm({ ...form, [event.target.name]: value });
 
+  const confettiColors = [
+    '#FFF',
+    '#700F00',
+    '#B55B4B',
+    '#F2D6CC',
+    '#2F4F07',
+    '#89A673',
+  ];
+
   return (
-    <div>
+    <div
+      css={css`
+        margin: 0 1.5rem;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      `}
+    >
       <h1>RSVP</h1>
       <form
         name="rsvp"
         method="post"
         netlify=""
         netifly-honeypot="non-human-name"
+        onSubmit={onSubmission}
         css={css`
           display: flex;
           flex-direction: column;
           padding-bottom: 2rem;
+          margin-top: auto;
+          width: 100%;
         `}
       >
         <input type="hidden" name="form-name" value="rsvp" />
@@ -185,8 +127,11 @@ export default function RSVP() {
           name="non-human-name"
         />
         <div css={rowStyle}>
-          <label css={labelStyle}>Name</label>
+          <label htmlFor="name" css={labelStyle}>
+            Name
+          </label>
           <input
+            id="name"
             css={inputStyle}
             required
             name="name"
@@ -199,8 +144,18 @@ export default function RSVP() {
         <fieldset css={fieldsetStyle}>
           <legend css={labelStyle}>I will be attending!</legend>
           <div>
-            {toggle('attending', 'Yes')}
-            {toggle('attending', 'No')}
+            <Radio
+              name="attending"
+              value="Yes"
+              onChange={onRadioChange}
+              form={form}
+            />
+            <Radio
+              name="attending"
+              value="No"
+              onChange={onRadioChange}
+              form={form}
+            />
           </div>
         </fieldset>
 
@@ -210,21 +165,24 @@ export default function RSVP() {
           `}
           style={{
             opacity,
-            height: attending && previous === attending ? 'auto' : height,
+            height: isAttending && previous === isAttending ? 'auto' : height,
           }}
         >
           <animated.div
             style={{ transform }}
             {...bind}
             css={css`
-              ${attending
+              ${isAttending
                 ? ''
                 : 'position: absolute; bottom: 0; pointer-events: none;'};
             `}
           >
             <div css={rowStyle}>
-              <label css={labelStyle}>Food preferences</label>
+              <label htmlFor="food" css={labelStyle}>
+                Food preferences
+              </label>
               <input
+                id="food"
                 css={inputStyle}
                 name="food"
                 value={form.food}
@@ -234,24 +192,32 @@ export default function RSVP() {
             </div>
             <fieldset css={fieldsetStyle}>
               <legend css={labelStyle}>Alcohol</legend>
-              {toggle('alcohol', 'Yes', {})}
-              {toggle('alcohol', 'No', {})}
+              <Radio
+                name="alcohol"
+                value="Yes"
+                onChange={onRadioChange}
+                form={form}
+                required={isAttending}
+              />
+              <Radio
+                name="alcohol"
+                value="No"
+                onChange={onRadioChange}
+                form={form}
+                required={isAttending}
+              />
             </fieldset>
           </animated.div>
         </animated.div>
 
-        <animated.button
-          css={buttonStyle}
-          style={buttonSpring}
-          disabled={!formValid}
-          onMouseOver={() => setButtonSpring({ transform: 'scale(1.1)' })}
-          onMouseLeave={() => setButtonSpring({ transform: 'scale(1)' })}
-          onClick={() => setButtonSpring({ transform: 'scale(1.0)' })}
-          name="sign-up"
-          type="submit"
-        >
-          {buttonText}
-        </animated.button>
+        <Confetti
+          active={formSubmitted}
+          config={{ colors: confettiColors, elementCount: 60 }}
+          css={css`
+            transform: translateX(50%);
+          `}
+        />
+        <Button disabled={!formValid} text={buttonText} />
       </form>
     </div>
   );
