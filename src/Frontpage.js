@@ -1,37 +1,56 @@
 /** @jsx jsx */
-import { jsx, keyframes } from "@emotion/core";
-import css from "@emotion/css/macro";
-import Countdown from "./Countdown";
-
-const animation = keyframes`
-    from, 0% {
-      transform: translateX(-50px);
-      opacity: 0;
-    }
-
-    to, 100% {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  `;
+import { jsx } from '@emotion/core';
+import css from '@emotion/css/macro';
+import Countdown from './Countdown';
+import { useSpring, animated, config, useChain } from 'react-spring';
+import { useRef } from 'react';
 
 export default function Frontpage() {
+  const headerRef = useRef();
+  const spring = useSpring({
+    from: {
+      opacity: 0,
+      transform: 'translateX(-100px)',
+    },
+    to: {
+      opacity: 1,
+      transform: 'translateX(0)',
+    },
+    config: config.gentle,
+    ref: headerRef,
+  });
+
+  const countdownRef = useRef();
+  const countdownSpring = useSpring({
+    from: {
+      transform: 'translateY(-30px)',
+      opacity: 0,
+    },
+    to: {
+      transform: 'translateY(0)',
+      opacity: 1,
+    },
+    ref: countdownRef,
+  });
+  useChain([headerRef, countdownRef]);
+
   return (
-    <div>
-      <h1
+    <div
+      css={css`
+        margin-bottom: 6rem;
+      `}
+    >
+      <animated.h1
+        style={spring}
         css={css`
           margin-top: 0;
           margin-bottom: 0;
           word-spacing: 100vw;
-          font-size: 4rem;
-          animation-name: ${animation};
-          animation-duration: 0.5s;
-          animation-fill-mode: both;
         `}
       >
         We are getting married
-      </h1>
-      <Countdown />
+      </animated.h1>
+      <Countdown style={countdownSpring} />
     </div>
   );
 }

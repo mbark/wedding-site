@@ -1,30 +1,50 @@
 /** @jsx jsx */
-import { jsx } from "@emotion/core";
-import css from "@emotion/css/macro";
-import { useEffect, useRef, useState } from "react";
-import { animated, useSpring, config } from "react-spring";
-import ResizeObserver from "resize-observer-polyfill";
+import { jsx } from '@emotion/core';
+import css from '@emotion/css/macro';
+import { useEffect, useRef, useState } from 'react';
+import { animated, useSpring, config } from 'react-spring';
+import ResizeObserver from 'resize-observer-polyfill';
 
 export default function RSVP() {
-  const [attending, setAttending] = useState(false);
+  const [form, setForm] = useState({
+    name: '',
+    attending: null,
+    food: '',
+    alcohol: null,
+  });
+  const attending = form.attending === 'Yes';
 
   const previous = usePrevious(attending);
   const [bind, { height: viewHeight }] = useMeasure();
   const { height, opacity, transform } = useSpring({
-    from: { height: 0, opacity: 0, transform: "translate3d(-10%,0,0)" },
-    to: async (next, cancel) => {
-      await next({
-        transform: `translate3d(${attending ? 0 : "-10%"},0,0)`,
-        opacity: attending ? 1 : 0
-      });
-      await next({
-        height: attending ? viewHeight : 0
-      });
+    from: { height: 0, opacity: 0, transform: 'translate3d(-10%,0,0)' },
+    to: {
+      opacity: attending ? 1 : 0,
+      height: attending ? viewHeight : 0,
+      transform: `translate3d(${attending ? 0 : '10%'},0,0)`,
     },
-    config: config.gentle
+    config: config.gentle,
   });
 
-  const toggle = (name, value, props) => {
+  const validateForm = () => {
+    let valid = true;
+    valid = valid && !!form.name;
+    valid = valid && typeof form.attending === 'string';
+    if (form.attending) {
+      valid = valid && typeof form.alcohol === 'string';
+    }
+
+    return valid;
+  };
+
+  const formValid = validateForm();
+
+  let buttonText = 'Fill out required fields to sign up!';
+  if (formValid) {
+    buttonText = form.attending ? 'Sign me up baby!' : 'See you another time?';
+  }
+
+  const toggle = (name, value) => {
     const id = `${name}-${value}`;
     const toggleStyle = css`
       height: 0;
@@ -71,7 +91,8 @@ export default function RSVP() {
           name={name}
           value={value}
           css={toggleStyle}
-          {...props}
+          checked={value === form[name]}
+          onChange={onRadioChange(value)}
         />
         <label htmlFor={id} />
         <label htmlFor={id}>{value}</label>
@@ -107,70 +128,44 @@ export default function RSVP() {
     }
   `;
 
+  const [buttonSpring, setButtonSpring] = useSpring(() => ({
+    transform: 'scale(1)',
+    config: {
+      mass: 1,
+      tension: 300,
+      friction: 15,
+      velocity: 10,
+    },
+  }));
+
   const buttonStyle = css`
     padding: 0.5rem 1.5rem;
-    position: relative;
     background-color: rgb(112, 15, 0);
     color: white;
     border-style: none;
-    width: max-content;
-    font-family: "Mont";
+    font-family: 'Mont';
     border-radius: 8px;
-    box-shadow: 4px 4px 1px rgba(0, 0, 0, 0.25);
     cursor: pointer;
-    transition: all 0.2s;
-    &::after {
-      content: "";
-      border-radius: 8px;
-      position: absolute;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      box-shadow: 8px 4px 2px rgba(0, 0, 0, 0.2);
-      opacity: 0;
-      transition: all 0.2s;
-    }
-
-    &:hover {
-      transform: scale(1.1);
-      &::after {
-        opacity: 1;
-      }
-
-      &:active {
-        transform: scale(0.95);
-        &::after {
-          opacity: 0;
-        }
-      }
+    &:disabled {
+      cursor: not-allowed;
+      background-color: rgba(112, 15, 0, 0.5);
     }
   `;
 
   const labelStyle = css`
-    font-family: "Mont";
+    font-family: 'Mont';
     display: block;
   `;
 
+  const onInputChange = event =>
+    setForm({ ...form, [event.target.name]: event.target.value });
+
+  const onRadioChange = value => event =>
+    setForm({ ...form, [event.target.name]: value });
+
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        margin-left: 1.5rem;
-        height: 100%;
-      `}
-    >
-      <h1
-        css={css`
-          align-self: flex-start;
-          margin-top: 0;
-          margin-bottom: 2rem;
-        `}
-      >
-        RSVP
-      </h1>
+    <div>
+      <h1>RSVP</h1>
       <form
         name="rsvp"
         method="post"
@@ -180,7 +175,6 @@ export default function RSVP() {
           display: flex;
           flex-direction: column;
           padding-bottom: 2rem;
-          padding-right: 2rem;
         `}
       >
         <input type="hidden" name="form-name" value="rsvp" />
@@ -192,43 +186,72 @@ export default function RSVP() {
         />
         <div css={rowStyle}>
           <label css={labelStyle}>Name</label>
-          <input css={inputStyle} required name="name" type="text" />
+          <input
+            css={inputStyle}
+            required
+            name="name"
+            type="text"
+            value={form.name}
+            onChange={onInputChange}
+          />
         </div>
 
         <fieldset css={fieldsetStyle}>
           <legend css={labelStyle}>I will be attending!</legend>
           <div>
-            {toggle("attending", "Yes", {
-              onChange: () => setAttending(true)
-            })}
-            {toggle("attending", "No", {
-              onChange: () => setAttending(false)
-            })}
+            {toggle('attending', 'Yes')}
+            {toggle('attending', 'No')}
           </div>
         </fieldset>
 
         <animated.div
+          css={css`
+            position: relative;
+          `}
           style={{
             opacity,
-            height: attending && previous === attending ? "auto" : height
+            height: attending && previous === attending ? 'auto' : height,
           }}
         >
-          <animated.div style={{ transform }} {...bind}>
+          <animated.div
+            style={{ transform }}
+            {...bind}
+            css={css`
+              ${attending
+                ? ''
+                : 'position: absolute; bottom: 0; pointer-events: none;'};
+            `}
+          >
             <div css={rowStyle}>
               <label css={labelStyle}>Food preferences</label>
-              <input css={inputStyle} name="food-preferences" type="text" />
+              <input
+                css={inputStyle}
+                name="food"
+                value={form.food}
+                onChange={onInputChange}
+                type="text"
+              />
             </div>
             <fieldset css={fieldsetStyle}>
               <legend css={labelStyle}>Alcohol</legend>
-              {toggle("alcohol", "Yes", {})}
-              {toggle("alcohol", "No", {})}
+              {toggle('alcohol', 'Yes', {})}
+              {toggle('alcohol', 'No', {})}
             </fieldset>
           </animated.div>
         </animated.div>
 
-        <button css={buttonStyle} name="sign-up" type="submit">
-          {attending ? "Sign me up baby!" : "See you another time?"}
-        </button>
+        <animated.button
+          css={buttonStyle}
+          style={buttonSpring}
+          disabled={!formValid}
+          onMouseOver={() => setButtonSpring({ transform: 'scale(1.1)' })}
+          onMouseLeave={() => setButtonSpring({ transform: 'scale(1)' })}
+          onClick={() => setButtonSpring({ transform: 'scale(1.0)' })}
+          name="sign-up"
+          type="submit"
+        >
+          {buttonText}
+        </animated.button>
       </form>
     </div>
   );
@@ -244,7 +267,7 @@ export function useMeasure() {
   const ref = useRef();
   const [bounds, set] = useState({ left: 0, top: 0, width: 0, height: 0 });
   const [ro] = useState(
-    () => new ResizeObserver(([entry]) => set(entry.contentRect))
+    () => new ResizeObserver(([entry]) => set(entry.contentRect)),
   );
   useEffect(() => {
     if (ref.current) ro.observe(ref.current);

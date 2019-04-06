@@ -1,18 +1,17 @@
 /** @jsx jsx */
-import { Global, jsx } from "@emotion/core";
-import css from "@emotion/css/macro";
-import "normalize.css";
-import Div100vh from "react-div-100vh";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Bird from "./Bird";
-import Frontpage from "./Frontpage";
-import MontEot from "./resources/fonts/MontDemo-Heavy.eot";
-import MontOtf from "./resources/fonts/MontDemo-Heavy.otf";
-import MontWoff from "./resources/fonts/MontDemo-Heavy.woff";
-import MontWoff2 from "./resources/fonts/MontDemo-Heavy.woff2";
-import RSVP from "./RSVP";
-import Us from "./Us";
-
+import { Global, jsx } from '@emotion/core';
+import css from '@emotion/css/macro';
+import 'normalize.css';
+import Div100vh from 'react-div-100vh';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Bird from './Bird';
+import Frontpage from './Frontpage';
+import MontEot from './resources/fonts/MontDemo-Heavy.eot';
+import MontOtf from './resources/fonts/MontDemo-Heavy.otf';
+import MontWoff from './resources/fonts/MontDemo-Heavy.woff';
+import MontWoff2 from './resources/fonts/MontDemo-Heavy.woff2';
+import RSVP from './RSVP';
+import Us from './Us';
 
 export default function App() {
   return (
@@ -53,10 +52,12 @@ export default function App() {
 
         h1, h2, h3, h4, h5 {
           font-family: "Mont";
+          margin-top: 0;
         }
 
         h1 {
           text-transform: uppercase;
+          font-size: 4rem;
           line-height: 0.9em;
         }`}
       />
@@ -64,11 +65,8 @@ export default function App() {
       <Us />
       <div
         css={css`
-          display: flex;
-          flex-direction: column;
           margin-left: 1.5rem;
-          margin-top: auto;
-          margin-bottom: 6rem;
+          align-self: flex-end;
         `}
       >
         <Router>
