@@ -3,29 +3,33 @@ import { Global, jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import 'normalize.css';
 import Div100vh from 'react-div-100vh';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Bird from './Bird';
-import Frontpage from './Frontpage';
 import MontEot from './resources/fonts/MontDemo-Heavy.eot';
 import MontOtf from './resources/fonts/MontDemo-Heavy.otf';
 import MontWoff from './resources/fonts/MontDemo-Heavy.woff';
 import MontWoff2 from './resources/fonts/MontDemo-Heavy.woff2';
-import RSVP from './RSVP/RSVP';
 import Us from './Us';
-import OtherAttending from './OtherAttending';
+import Navbar from './Navbar';
+import Main from './Main';
 
 export default function App() {
   return (
     <Div100vh
       css={css`
         display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        max-height: 100vh;
+
         @media (min-width: 1025px) {
           min-height: 780px;
         }
       `}
     >
-      <Global
-        styles={css` 
+      <BrowserRouter>
+        <Global
+          styles={css` 
             @font-face {
               font-family: "Mont";
               src: url("${MontEot}");
@@ -60,27 +64,29 @@ export default function App() {
           text-transform: uppercase;
           font-size: 4rem;
           line-height: 0.9em;
-        }`}
-      />
-      <Bird />
-      <Us />
-      <div
-        css={css`
-          align-self: flex-end;
-          height: 70%;
-          width: 100%;
-          display: flex;
+        }
+       
+        h4 {
+          text-transform: uppercase;
+        }
         `}
-      >
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Frontpage} />
-            <Route path="/rsvp" component={RSVP} />
-            <Route path="/others" component={OtherAttending} />
-            <Route component={Frontpage} />
-          </Switch>
-        </Router>
-      </div>
+        />
+        <div
+          css={css`
+            position: relative;
+            height: 100%;
+
+            @media (min-width: 768px) {
+              margin-top: 80px;
+            }
+          `}
+        >
+          <Bird />
+          <Us />
+          <Main />
+        </div>
+        <Navbar />
+      </BrowserRouter>
     </Div100vh>
   );
 }

@@ -20,8 +20,9 @@ export default function Bird() {
     <animated.div
       style={props}
       css={css`
-        position: fixed;
+        position: absolute;
         height: 7rem;
+        top: 0%;
         left: 2rem;
         display: flex;
         z-index: -1;

@@ -115,7 +115,7 @@ export default function RSVP() {
           display: flex;
           flex-direction: column;
           padding-bottom: 2rem;
-          margin-top: auto;
+          height: 100%;
           width: 100%;
         `}
       >
@@ -174,7 +174,7 @@ export default function RSVP() {
             css={css`
               ${isAttending
                 ? ''
-                : 'position: absolute; bottom: 0; pointer-events: none;'};
+                : 'position: absolute; top: 0; pointer-events: none;'};
             `}
           >
             <div css={rowStyle}>
@@ -198,6 +198,7 @@ export default function RSVP() {
                 onChange={onRadioChange}
                 form={form}
                 required={isAttending}
+                type={isAttending ? 'radio' : 'hidden'}
               />
               <Radio
                 name="alcohol"

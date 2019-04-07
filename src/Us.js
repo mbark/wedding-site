@@ -3,7 +3,7 @@ import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import { animated, useSpring } from 'react-spring';
 import UsImage from './resources/images/us.png';
-import { useChain, useTransition } from 'react-spring';
+import { useChain, useTransition, config } from 'react-spring';
 import React, { useRef, useState } from 'react';
 
 export default function Us() {
@@ -14,6 +14,7 @@ export default function Us() {
     from: { opacity: 0, transform: 'scale(0)' },
     enter: { opacity: 1, transform: 'scale(1)' },
     ref: imageRef,
+    config: config.wobbly,
   });
 
   const textRef = useRef();
@@ -27,6 +28,7 @@ export default function Us() {
       opacity: 1,
     },
     ref: textRef,
+    config: config.gentle,
   });
 
   useChain([imageRef, textRef]);
