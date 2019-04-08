@@ -2,7 +2,7 @@
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import Countdown from './Countdown';
-import { useSpring, animated, config, useChain } from 'react-spring';
+import { useSpring, animated, useChain } from 'react-spring';
 import { useRef } from 'react';
 
 export default function Frontpage() {
@@ -10,13 +10,12 @@ export default function Frontpage() {
   const spring = useSpring({
     from: {
       opacity: 0,
-      transform: 'translateX(-100px)',
+      transform: 'translateY(-30px)',
     },
     to: {
       opacity: 1,
-      transform: 'translateX(0)',
+      transform: 'translateY(0)',
     },
-    config: config.gentle,
     ref: headerRef,
   });
 
@@ -32,7 +31,8 @@ export default function Frontpage() {
     },
     ref: countdownRef,
   });
-  useChain([headerRef, countdownRef]);
+  // Delay the animation a bit to allow the element to enter
+  useChain([headerRef, countdownRef], [0.6, 1.0]);
 
   return (
     <div

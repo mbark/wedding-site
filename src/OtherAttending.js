@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
-import React from 'react';
 
 export default function OtherAttending() {
   const imageSize = '9rem';
@@ -39,13 +38,14 @@ export default function OtherAttending() {
   };
 
   return (
-    <div css={css`
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: auto;
-      grid-gap: 0.5rem;
-
-    `}>
+    <div
+      css={css`
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+        grid-gap: 0.5rem;
+      `}
+    >
       {Person('martin')}
       {Person('martin')}
       {Person('martin')}

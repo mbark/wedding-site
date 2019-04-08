@@ -22,7 +22,7 @@ export default function Bird() {
       css={css`
         position: absolute;
         height: 7rem;
-        top: 0%;
+        top: 0;
         left: 2rem;
         display: flex;
         z-index: -1;

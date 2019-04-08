@@ -4,7 +4,7 @@ import css from '@emotion/css/macro';
 import { animated, useSpring } from 'react-spring';
 import UsImage from './resources/images/us.png';
 import { useChain, useTransition, config } from 'react-spring';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 export default function Us() {
   const [loaded, setLoaded] = useState(false);
@@ -38,9 +38,6 @@ export default function Us() {
       css={css`
         margin-left: auto;
         margin-right: 1rem;
-        position: absolute;
-        top: 0;
-        right: 0;
       `}
     >
       {imageTransition.map(({ item, key, props }) =>

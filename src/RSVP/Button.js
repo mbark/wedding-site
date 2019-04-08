@@ -3,7 +3,6 @@ import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import { animated, useSpring } from 'react-spring';
 
-
 export default function Button({ disabled, text }) {
   const defaultStyle = {
     transform: 'translateY(0px) scale(1)',

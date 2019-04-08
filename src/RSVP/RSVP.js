@@ -56,7 +56,7 @@ export default function RSVP() {
     margin-left: 2px;
     color: white;
     &:focus {
-      box-shadow: 0 0 4px rgba(112, 15);
+      border-bottom-color: rgba(112, 15, 0);
     }
   `;
 
