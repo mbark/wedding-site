@@ -39,7 +39,7 @@ export default function Navbar() {
         />
         <h4
           css={css`
-            color: white;
+            color: #700f00;
             font-size: 0.8rem;
             margin-bottom: 0;
           `}
@@ -54,9 +54,10 @@ export default function Navbar() {
     <nav
       css={css`
         position: fixed;
-        width: 100%;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-        background-color: rgba(181, 91, 75, 1);
+        width: 100vw;
+        border-top: 1px solid rgba(112, 14, 0, 0.4);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        background-color: #F2D6CC;
         height: ${navbarHeight};
         display: flex;
         justify-content: space-around;
@@ -67,6 +68,7 @@ export default function Navbar() {
         }
 
         @media (min-width: 768px) {
+          border-bottom: 1px solid rgba(112, 14, 0, 0.4);
           top: 0;
         }
       `}

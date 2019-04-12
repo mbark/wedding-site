@@ -29,7 +29,7 @@ export default function Bird() {
         &:before {
           content: '';
           position: absolute;
-          height: 100%;
+          height: 140%;
           border-right: 0.05rem solid black;
           left: 47.5%;
           bottom: 25%;

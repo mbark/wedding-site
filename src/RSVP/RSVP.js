@@ -4,24 +4,56 @@ import css from '@emotion/css/macro';
 import { useEffect, useRef, useState } from 'react';
 import { animated, useSpring, config } from 'react-spring';
 import ResizeObserver from 'resize-observer-polyfill';
-import Radio from './Radio';
+import Checkbox from './Checkbox';
 import Button from './Button';
 import Confetti from 'react-dom-confetti';
+import useFormal from '@kevinwolf/formal-web';
+import * as yup from 'yup';
+
+const schema = yup.object().shape({
+  name: yup.string().required(),
+  attending: yup.boolean().required(),
+  food: yup.string(),
+  alcohol: yup.boolean().when('attending', {
+    is: true,
+    then: yup.boolean().required(),
+  }),
+  'non-human-input': yup.string(),
+});
+
+const initialValues = {
+  name: '',
+  attending: false,
+  food: '',
+  alcohol: false,
+  'non-human-input': '',
+};
 
 export default function RSVP() {
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const onSubmission = event => {
-    event.preventDefault();
-    setFormSubmitted(true);
-  };
+  const [showConfetti, setShowConfetti] = useState(false);
 
-  const [form, setForm] = useState({
-    name: '',
-    attending: null,
-    food: '',
-    alcohol: null,
+  const formal = useFormal(initialValues, {
+    schema,
+    onSubmit: values => {
+      const formData = Object.keys(values).reduce((formData, key) => {
+        formData.append(key, values[key]);
+        return formData;
+      }, new FormData());
+      formData.append('form-name', 'rsvp');
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString(),
+      })
+        .then(() => setShowConfetti(values.attending))
+        .then(() => setFormSubmitted(true))
+        .catch(error => console.error(error));
+    },
   });
-  const isAttending = form.attending === 'Yes';
+
+  const isAttending = formal.values.attending;
 
   const previous = usePrevious(isAttending);
   const [bind, { height: viewHeight }] = useMeasure();
@@ -35,19 +67,12 @@ export default function RSVP() {
     config: config.gentle,
   });
 
-  let formValid = true;
-  formValid = formValid && !!form.name;
-  formValid = formValid && typeof form.attending === 'string';
-  if (form.attending === 'Yes') {
-    formValid = formValid && typeof form.alcohol === 'string';
-  }
-
-  let buttonText = 'Fill out required fields to sign up!';
-  if (formValid) {
-    buttonText = form.attending ? 'Sign me up baby!' : 'See you another time?';
-  }
+  const buttonText = formal.values.attending
+    ? 'Sign me up baby!'
+    : 'See you another time?';
 
   const inputStyle = css`
+    outline: none;
     border-radius: 6px;
     border: 2px solid rgba(112, 15, 0, 0.2);
     background-color: rgba(112, 15, 0, 0.2);
@@ -80,12 +105,6 @@ export default function RSVP() {
     display: block;
   `;
 
-  const onInputChange = event =>
-    setForm({ ...form, [event.target.name]: event.target.value });
-
-  const onRadioChange = value => event =>
-    setForm({ ...form, [event.target.name]: value });
-
   const confettiColors = [
     '#FFF',
     '#700F00',
@@ -106,11 +125,8 @@ export default function RSVP() {
     >
       <h1>RSVP</h1>
       <form
-        name="rsvp"
         method="post"
-        netlify=""
-        netifly-honeypot="non-human-name"
-        onSubmit={onSubmission}
+        {...formal.getFormProps()}
         css={css`
           display: flex;
           flex-direction: column;
@@ -119,44 +135,28 @@ export default function RSVP() {
           width: 100%;
         `}
       >
-        <input type="hidden" name="form-name" value="rsvp" />
         <input
+          type="text"
           css={css`
             display: none;
           `}
-          name="non-human-name"
+          {...formal.getFieldProps('non-human-input')}
         />
         <div css={rowStyle}>
           <label htmlFor="name" css={labelStyle}>
             Name
           </label>
           <input
-            id="name"
             css={inputStyle}
-            required
-            name="name"
+            {...formal.getFieldProps('name')}
             type="text"
-            value={form.name}
-            onChange={onInputChange}
           />
         </div>
 
         <fieldset css={fieldsetStyle}>
-          <legend css={labelStyle}>I will be attending!</legend>
-          <div>
-            <Radio
-              name="attending"
-              value="Yes"
-              onChange={onRadioChange}
-              form={form}
-            />
-            <Radio
-              name="attending"
-              value="No"
-              onChange={onRadioChange}
-              form={form}
-            />
-          </div>
+          <legend css={labelStyle}>
+            <Checkbox name="attending" formal={formal} /> I will be attending!
+          </legend>
         </fieldset>
 
         <animated.div
@@ -182,43 +182,27 @@ export default function RSVP() {
                 Food preferences
               </label>
               <input
-                id="food"
                 css={inputStyle}
-                name="food"
-                value={form.food}
-                onChange={onInputChange}
+                {...formal.getFieldProps('food')}
                 type="text"
               />
             </div>
             <fieldset css={fieldsetStyle}>
-              <legend css={labelStyle}>Alcohol</legend>
-              <Radio
-                name="alcohol"
-                value="Yes"
-                onChange={onRadioChange}
-                form={form}
-                required={isAttending}
-                type={isAttending ? 'radio' : 'hidden'}
-              />
-              <Radio
-                name="alcohol"
-                value="No"
-                onChange={onRadioChange}
-                form={form}
-                required={isAttending}
-              />
+              <legend css={labelStyle}>
+                <Checkbox name="alcohol" value="No" formal={formal} /> Alcohol
+              </legend>
             </fieldset>
           </animated.div>
         </animated.div>
 
         <Confetti
-          active={formSubmitted}
+          active={showConfetti}
           config={{ colors: confettiColors, elementCount: 60 }}
           css={css`
             transform: translateX(50%);
           `}
         />
-        <Button disabled={!formValid} text={buttonText} />
+        <Button formal={formal} text={buttonText} />
       </form>
     </div>
   );

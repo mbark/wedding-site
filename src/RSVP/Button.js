@@ -3,7 +3,7 @@ import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import { animated, useSpring } from 'react-spring';
 
-export default function Button({ disabled, text }) {
+export default function Button({ formal, text }) {
   const defaultStyle = {
     transform: 'translateY(0px) scale(1)',
     boxShadow: '0 8px 10px -6px black',
@@ -39,7 +39,7 @@ export default function Button({ disabled, text }) {
     <animated.button
       css={buttonStyle}
       style={buttonSpring}
-      disabled={disabled}
+      {...formal.getSubmitButtonProps()} 
       onMouseLeave={() => setButtonSpring(defaultStyle)}
       onClick={() =>
         setButtonSpring({
@@ -47,8 +47,6 @@ export default function Button({ disabled, text }) {
           boxShadow: '0 8px 6px -6px black',
         })
       }
-      name="sign-up"
-      type="submit"
     >
       {text}
     </animated.button>
