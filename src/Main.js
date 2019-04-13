@@ -4,7 +4,8 @@ import css from '@emotion/css/macro';
 import { Route, Switch } from 'react-router-dom';
 import { useTransition, animated } from 'react-spring';
 import Frontpage from './Frontpage';
-import RSVP, { usePrevious } from './RSVP/RSVP';
+import RSVP  from './RSVP/RSVP';
+import { usePrevious } from './hooks';
 import OtherAttending from './OtherAttending';
 import useRouter from './useRouter';
 

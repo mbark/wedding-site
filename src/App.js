@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { Global, jsx } from '@emotion/core';
+import { ThemeProvider } from 'emotion-theming';
 import css from '@emotion/css/macro';
 import 'normalize.css';
 import { BrowserRouter } from 'react-router-dom';
@@ -11,6 +12,7 @@ import MontWoff2 from './resources/fonts/MontDemo-Heavy.woff2';
 import Us from './Us';
 import Navbar, { navbarHeight } from './Navbar';
 import Main from './Main';
+import theme from './theme';
 
 export default function App() {
   return (
@@ -24,8 +26,9 @@ export default function App() {
       `}
     >
       <BrowserRouter>
-        <Global
-          styles={css` 
+        <ThemeProvider theme={theme}>
+          <Global
+            styles={theme => css` 
             @font-face {
               font-family: "Mont";
               src: url("${MontEot}");
@@ -37,17 +40,19 @@ export default function App() {
           html { 
             font-size: 100%; 
 
-            @media (min-width: 768px) and (max-width: 1024px) {
+            @media (min-width: ${theme.media.phone}px) and (max-width: ${
+              theme.media.tablet
+            }px) {
               font-size: 140%;
             } 
-            @media (min-width: 1025px) {
+            @media (min-width: ${theme.media.tablet + 1}px) {
               font-size: 160%;
             }
           }
 
         body {
           background-color: #F2D6CC;
-          color: #700F00;
+          color: ${theme.colors.red};
           font-family: 'Open Sans';
         }
 
@@ -66,25 +71,26 @@ export default function App() {
           text-transform: uppercase;
         }
         `}
-        />
-        <div
-          css={css`
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            padding-bottom: ${navbarHeight};
+          />
+          <div
+            css={theme => css`
+              position: relative;
+              display: flex;
+              flex-direction: column;
+              padding-bottom: ${navbarHeight};
 
-            @media (min-width: 768px) {
-              margin-top: ${navbarHeight};
-              padding-bottom: 0;
-            }
-          `}
-        >
-          <Bird />
-          <Us />
-          <Main />
-        </div>
-        <Navbar />
+              @media (min-width: ${theme.media.phone}px) {
+                margin-top: ${navbarHeight};
+                padding-bottom: 0;
+              }
+            `}
+          >
+            <Bird />
+            <Us />
+            <Main />
+          </div>
+          <Navbar />
+        </ThemeProvider>
       </BrowserRouter>
     </div>
   );

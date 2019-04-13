@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@kevinwolf/formal-web": "^0.1.0",
+    "emotion-theming": "^10.0.10",
     "luxon": "^1.12.0",
     "normalize.css": "^8.0.1",
     "prettier": "^1.16.4",
@@ -39,5 +40,9 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "devDependencies": {}
+  "devDependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "http-proxy-middleware": "^0.19.1"
+  }
 }

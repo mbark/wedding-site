@@ -1,16 +1,16 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
+import { rowStyle } from './styles';
 
-export default function Checkbox({ name, value, formal }) {
-  const id = `${name}-${value}`;
+export default function Checkbox({ name, value, title, formal }) {
   const toggleStyle = css`
     height: 0;
     width: 0;
     position: absolute;
     opacity: 0;
     bottom: 0;
-    left: 0.3rem;
+    left: 0.5rem;
 
     & + label {
       cursor: pointer;
@@ -48,24 +48,32 @@ export default function Checkbox({ name, value, formal }) {
   `;
 
   return (
-    <div
-      css={css`
-        margin-right: 1rem;
-        display: inline-flex;
-        align-items: center;
-        position: relative;
-      `}
-    >
-      <input
-        id={id}
-        type="checkbox"
-        name={name}
-        value={value}
-        checked={formal.values[name]}
-        onChange={e => formal.change(name, e.target.checked)}
-        css={toggleStyle}
-      />
-      <label htmlFor={id} />
+    <div css={rowStyle}>
+      <label
+        css={css`
+          margin-right: 1rem;
+          display: flex;
+          align-items: center;
+          position: relative;
+        `}
+      >
+        <input
+          id={name}
+          type="checkbox"
+          name={name}
+          value={value}
+          checked={formal.values[name]}
+          onChange={e => formal.change(name, e.target.checked)}
+          css={toggleStyle}
+        />
+        <label
+          htmlFor={name}
+          css={css`
+            margin-right: 0.5rem;
+          `}
+        />
+        <span>{title}</span>
+      </label>
     </div>
   );
 }

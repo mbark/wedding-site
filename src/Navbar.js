@@ -52,22 +52,22 @@ export default function Navbar() {
 
   return (
     <nav
-      css={css`
+      css={theme => css`
         position: fixed;
         width: 100vw;
         border-top: 1px solid rgba(112, 14, 0, 0.4);
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        background-color: #F2D6CC;
+        background-color: ${theme.colors.peach};
         height: ${navbarHeight};
         display: flex;
         justify-content: space-around;
         align-items: center;
 
-        @media (max-width: 767px) {
+        @media (max-width: ${theme.media.phone-1}px) {
           bottom: 0;
         }
 
-        @media (min-width: 768px) {
+        @media (min-width: ${theme.media.phone}px) {
           border-bottom: 1px solid rgba(112, 14, 0, 0.4);
           top: 0;
         }

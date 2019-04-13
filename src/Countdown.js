@@ -2,7 +2,8 @@
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import { DateTime } from 'luxon';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
+import { useInterval } from './hooks';
 import { animated } from 'react-spring';
 
 const countdownTo = DateTime.local(2019, 9, 28, 16);
@@ -38,21 +39,4 @@ export default function Countdown({ style }) {
       in {timer.map(item => `${item.time} ${item.unit}`)}
     </animated.div>
   );
-}
-
-function useInterval(callback, delay) {
-  const savedCallback = useRef();
-
-  useEffect(() => {
-    savedCallback.current = callback;
-  });
-
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-
-    let id = setInterval(tick, delay);
-    return () => clearInterval(id);
-  }, [delay]);
 }
