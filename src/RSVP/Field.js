@@ -1,8 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
-import { rowStyle } from './styles';
-import * as Color from 'color';
 
 export default function Field({ name, title, formal }) {
   const containerStyle = css`
@@ -32,9 +30,7 @@ export default function Field({ name, title, formal }) {
     outline: none;
     border-radius: 6px;
     border: none;
-    background-color: ${Color(theme.colors.red)
-      .mix(Color(theme.colors.peach), 0.8)
-      .hex()};
+    background-color: ${theme.colors.peachRed};
     padding: 20px 10px 10px 10px;
     color: white;
     z-index: 2;

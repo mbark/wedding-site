@@ -44,7 +44,9 @@ export default function App() {
             html { 
               font-size: 100%; 
 
-              @media (min-width: ${theme.media.phone}px) and (max-width: ${theme.media.tablet}px) {
+              @media (min-width: ${theme.media.phone}px) and (max-width: ${
+              theme.media.tablet
+            }px) {
                 font-size: 140%;
               } 
 
@@ -73,7 +75,23 @@ export default function App() {
             h4 {
               text-transform: uppercase;
             }
-        `}
+
+            /* Fix styling for form autofill */
+            input:-webkit-autofill,
+            input:-webkit-autofill:hover, 
+            input:-webkit-autofill:focus
+            textarea:-webkit-autofill,
+            textarea:-webkit-autofill:hover
+            textarea:-webkit-autofill:focus,
+            select:-webkit-autofill,
+            select:-webkit-autofill:hover,
+            select:-webkit-autofill:focus {
+              border: none;
+              -webkit-text-fill-color: ${theme.colors.white};
+              box-shadow: 0 0 0px 1000px ${theme.colors.peachRed} inset;
+              transition: background-color 5000s ease-in-out 0s;
+            }
+          `}
           />
           <div
             css={theme => css`

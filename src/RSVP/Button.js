@@ -26,6 +26,7 @@ const Button = withRouter(({ formal, text, history }) => {
 
   const buttonStyle = css`
     padding: 0.5rem 1.5rem;
+    width: fit-content;
     background-color: rgb(112, 15, 0);
     outline: none;
     color: white;

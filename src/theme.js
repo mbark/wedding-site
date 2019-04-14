@@ -1,4 +1,6 @@
-const theme = {
+import * as Color from 'color';
+
+const base = {
   colors: {
     white: '#FFF',
     red: '#700F00',
@@ -12,5 +14,23 @@ const theme = {
     tablet: 1024,
   },
 };
+
+const tints = {
+  colors: {
+    peachRed: Color(base.colors.red)
+      .mix(Color(base.colors.peach), 0.8)
+      .hex(),
+  },
+};
+
+const theme = {
+  ...base,
+  colors: {
+    ...base.colors,
+    ...tints.colors,
+  },
+};
+
+console.log(theme);
 
 export default theme;

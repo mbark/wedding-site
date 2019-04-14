@@ -4,6 +4,7 @@ import css from '@emotion/css/macro';
 import { useState } from 'react';
 import Form from './Form';
 import Attending from '../resources/images/attending.png';
+import NotAttending from '../resources/images/not-attending.png';
 import useFormal from '@kevinwolf/formal-web';
 import * as yup from 'yup';
 import { useTransition, animated } from 'react-spring';
@@ -82,12 +83,16 @@ export default function RSVP() {
   });
 
   let buttonText = 'Sign me up baby!';
-  if (formal.isDirty && formal.values.attending) {
+  if (formal.isDirty && !formal.values.attending) {
     buttonText = 'See you another time?';
   }
 
-  if (formSubmitted && formal.values.attending) {
-    buttonText = 'See who else is attending!';
+  if (formSubmitted) {
+    if (formal.values.attending) {
+      buttonText = 'See who else is attending!';
+    } else {
+      buttonText = 'Wanna see who is attending?';
+    }
   }
 
   return (
@@ -97,6 +102,7 @@ export default function RSVP() {
         display: flex;
         flex-direction: column;
         height: 100%;
+        width: 100%;
       `}
     >
       <h1>RSVP</h1>
@@ -108,17 +114,25 @@ export default function RSVP() {
           flex-direction: column;
           padding-bottom: 2rem;
           height: 100%;
+          width: 100%;
         `}
       >
         {transitions.map(({ item, props, key }) => (
-          <animated.div key={key} style={props}>
+          <animated.div
+            key={key}
+            style={props}
+            css={css`
+              ${item && 'align-self: center'};
+            `}
+          >
             {item ? (
               <img
-                src={Attending}
+                src={formal.values.attending ? Attending : NotAttending}
                 alt=""
                 css={css`
                   width: 12rem;
                   height: 12rem;
+                  margin-bottom: 1rem;
                 `}
               />
             ) : (
@@ -131,6 +145,7 @@ export default function RSVP() {
           active={showConfetti}
           config={{ colors: confettiColors, elementCount: 60 }}
           css={css`
+            position: absolute;
             transform: translateX(50%);
           `}
         />
