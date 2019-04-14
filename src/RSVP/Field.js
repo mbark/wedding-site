@@ -35,7 +35,7 @@ export default function Field({ name, title, formal }) {
     background-color: ${Color(theme.colors.red)
       .mix(Color(theme.colors.peach), 0.8)
       .hex()};
-    padding: 20px 10px 10px 5px;
+    padding: 20px 10px 10px 10px;
     color: white;
     z-index: 2;
 
@@ -66,7 +66,7 @@ export default function Field({ name, title, formal }) {
   const labelStyle = css`
     position: absolute;
     pointer-events: none;
-    left: 5px;
+    left: 10px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 3;

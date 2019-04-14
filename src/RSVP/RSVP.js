@@ -6,6 +6,7 @@ import Form from './Form';
 import Attending from '../resources/images/attending.png';
 import useFormal from '@kevinwolf/formal-web';
 import * as yup from 'yup';
+import { useTransition, animated } from 'react-spring';
 import { setLocale } from 'yup';
 import Button from './Button';
 import Confetti from 'react-dom-confetti';
@@ -62,9 +63,32 @@ export default function RSVP() {
     },
   });
 
-  const buttonText = formal.values.attending
-    ? 'Sign me up baby!'
-    : 'See you another time?';
+  const transitions = useTransition(formal.isSubmitted, null, {
+    from: {
+      opacity: 0,
+      transform: `translate3d(0,50%,0)`,
+      position: 'absolute',
+    },
+    enter: {
+      opacity: 1,
+      transform: 'translate3d(0%,0,0)',
+      position: 'inherit',
+    },
+    leave: {
+      opacity: 0,
+      transform: `translate3d(0,10%,0)`,
+      position: 'absolute',
+    },
+  });
+
+  let buttonText = 'Sign me up baby!';
+  if (formal.isDirty && formal.values.attending) {
+    buttonText = 'See you another time?';
+  }
+
+  if (formSubmitted && formal.values.attending) {
+    buttonText = 'See who else is attending!';
+  }
 
   return (
     <div
@@ -86,18 +110,22 @@ export default function RSVP() {
           height: 100%;
         `}
       >
-        {formSubmitted ? (
-          <img
-            src={Attending}
-            alt=""
-            css={css`
-              width: 12rem;
-              height: 12rem;
-            `}
-          />
-        ) : (
-          <Form formal={formal} />
-        )}
+        {transitions.map(({ item, props, key }) => (
+          <animated.div key={key} style={props}>
+            {item ? (
+              <img
+                src={Attending}
+                alt=""
+                css={css`
+                  width: 12rem;
+                  height: 12rem;
+                `}
+              />
+            ) : (
+              <Form key={key} style={props} formal={formal} />
+            )}
+          </animated.div>
+        ))}
 
         <Confetti
           active={showConfetti}

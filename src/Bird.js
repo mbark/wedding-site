@@ -34,6 +34,7 @@ export default function Bird() {
           left: 47.5%;
           bottom: 25%;
           z-index: -1;
+          box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.1);
         }
       `}
     >
@@ -41,6 +42,7 @@ export default function Bird() {
         css={css`
           width: 6rem;
           margin-top: auto;
+          filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.1));
         `}
         src={BirdImage}
         alt=""

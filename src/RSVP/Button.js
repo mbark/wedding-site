@@ -2,25 +2,32 @@
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import { animated, useSpring } from 'react-spring';
+import { useState } from 'react';
+import { withRouter } from 'react-router';
 
-export default function Button({ formal, text }) {
-  const defaultStyle = {
-    transform: 'translateY(0px) scale(1)',
-    boxShadow: '0 8px 10px -6px black',
+const Button = withRouter(({ formal, text, history }) => {
+  const [toggle, toggleClicked] = useState(false);
+  const props = useSpring({ x: toggle ? 0 : 1 });
+
+  const range = [0, 0.5, 1];
+  const style = {
+    transform: props.x
+      .interpolate({ range, output: [0, 5, 0] })
+      .interpolate(x => {
+        const scale = 1 - x / 20;
+        return `translateY(${x}px) scale(${scale})`;
+      }),
+    boxShadow: props.x
+      .interpolate({ range, output: [8, 4, 8] })
+      .interpolate(spread => {
+        return `0 8px ${spread}px -6px rgba(0, 0, 0, 0.5)`;
+      }),
   };
-
-  const [buttonSpring, setButtonSpring] = useSpring(() => ({
-    ...defaultStyle,
-    config: {
-      velocity: 20,
-      tension: 250,
-      friction: 10,
-    },
-  }));
 
   const buttonStyle = css`
     padding: 0.5rem 1.5rem;
     background-color: rgb(112, 15, 0);
+    outline: none;
     color: white;
     border-style: none;
     font-family: 'Mont';
@@ -35,20 +42,26 @@ export default function Button({ formal, text }) {
     }
   `;
 
+  let { disabled, type } = formal.isSubmitted
+    ? { disabled: false, type: 'button' }
+    : formal.getSubmitButtonProps();
+
   return (
     <animated.button
       css={buttonStyle}
-      style={buttonSpring}
-      {...formal.getSubmitButtonProps()} 
-      onMouseLeave={() => setButtonSpring(defaultStyle)}
-      onClick={() =>
-        setButtonSpring({
-          transform: 'translateY(5px) scale(0.9)',
-          boxShadow: '0 8px 6px -6px black',
-        })
-      }
+      style={style}
+      disabled={disabled}
+      type={type}
+      onClick={() => {
+        toggleClicked(!toggle);
+        if (formal.isSubmitted) {
+          history.push('/guests');
+        }
+      }}
     >
       {text}
     </animated.button>
   );
-}
+});
+
+export default Button;

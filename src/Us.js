@@ -58,6 +58,7 @@ export default function Us() {
               alt=""
               style={props}
               css={css`
+                filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.6));
                 width: 10rem;
                 height: 10rem;
               `}
