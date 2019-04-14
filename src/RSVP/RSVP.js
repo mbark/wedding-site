@@ -84,10 +84,6 @@ export default function RSVP() {
           flex-direction: column;
           padding-bottom: 2rem;
           height: 100%;
-
-          & label {
-            font-family: 'Mont';
-          }
         `}
       >
         {formSubmitted ? (

@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@kevinwolf/formal-web": "^0.1.0",
+    "color": "^3.1.0",
     "emotion-theming": "^10.0.10",
     "luxon": "^1.12.0",
     "normalize.css": "^8.0.1",

@@ -37,39 +37,42 @@ export default function App() {
               src: url("${MontWoff2}");
             }
 
-          html { 
-            font-size: 100%; 
-
-            @media (min-width: ${theme.media.phone}px) and (max-width: ${
-              theme.media.tablet
-            }px) {
-              font-size: 140%;
-            } 
-            @media (min-width: ${theme.media.tablet + 1}px) {
-              font-size: 160%;
+            * {
+              box-sizing: border-box;
             }
-          }
 
-        body {
-          background-color: #F2D6CC;
-          color: ${theme.colors.red};
-          font-family: 'Open Sans';
-        }
+            html { 
+              font-size: 100%; 
 
-        h1, h2, h3, h4, h5 {
-          font-family: "Mont";
-          margin-top: 0;
-        }
+              @media (min-width: ${theme.media.phone}px) and (max-width: ${theme.media.tablet}px) {
+                font-size: 140%;
+              } 
 
-        h1 {
-          text-transform: uppercase;
-          font-size: 3rem;
-          line-height: 0.9em;
-        }
-       
-        h4 {
-          text-transform: uppercase;
-        }
+              @media (min-width: ${theme.media.tablet + 1}px) {
+                font-size: 160%;
+              }
+            }
+
+            body {
+              background-color: #F2D6CC;
+              color: ${theme.colors.red};
+              font-family: 'Open Sans';
+            }
+
+            h1, h2, h3, h4, h5 {
+              font-family: "Mont";
+              margin-top: 0;
+            }
+
+            h1 {
+              text-transform: uppercase;
+              font-size: 3rem;
+              line-height: 0.9em;
+            }
+          
+            h4 {
+              text-transform: uppercase;
+            }
         `}
           />
           <div
