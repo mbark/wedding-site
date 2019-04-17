@@ -6,7 +6,7 @@ import { useTransition, animated } from 'react-spring';
 import Frontpage from './Frontpage';
 import RSVP  from './RSVP/RSVP';
 import { usePrevious } from './hooks';
-import OtherAttending from './OtherAttending';
+import Guests from './guests/Guests';
 import useRouter from './useRouter';
 
 export default function Main() {
@@ -40,6 +40,7 @@ export default function Main() {
     <div
       css={css`
         position: relative;
+        overflow-y: auto;
       `}
     >
       {transitions.map(({ item, props, key }) => (
@@ -56,7 +57,7 @@ export default function Main() {
           <Switch location={item}>
             <Route exact path="/" component={Frontpage} />
             <Route path="/rsvp" component={RSVP} />
-            <Route path="/guests" component={OtherAttending} />
+            <Route path="/guests" component={Guests} />
             <Route component={Frontpage} />
           </Switch>
         </animated.div>

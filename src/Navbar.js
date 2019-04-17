@@ -56,7 +56,7 @@ export default function Navbar() {
         position: fixed;
         width: 100vw;
         border-top: 1px solid rgba(112, 14, 0, 0.4);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
         background-color: ${theme.colors.peach};
         height: ${navbarHeight};
         display: flex;

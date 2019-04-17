@@ -56,7 +56,7 @@ export default function App() {
             }
 
             body {
-              background-color: #F2D6CC;
+              background-color: ${theme.colors.peach};
               color: ${theme.colors.red};
               font-family: 'Open Sans';
             }
@@ -99,9 +99,11 @@ export default function App() {
               display: flex;
               flex-direction: column;
               padding-bottom: ${navbarHeight};
+              overflow: hidden;
+              max-height: 100vh;
 
               @media (min-width: ${theme.media.phone}px) {
-                margin-top: ${navbarHeight};
+                padding-top: ${navbarHeight};
                 padding-bottom: 0;
               }
             `}
