@@ -6,10 +6,9 @@ import { animated, useSpring, config } from 'react-spring';
 import { usePrevious, useMeasure } from '../hooks';
 import Checkbox from './Checkbox';
 import Field from './Field';
+import Radio from './Radio';
 
-export default function Form({ formal }) {
-  const isAttending = formal.values.attending;
-
+export default function Form({ formal, isAttending }) {
   const previous = usePrevious(isAttending);
   const [bind, { height: viewHeight }] = useMeasure();
   const { height, opacity, transform } = useSpring({
@@ -19,7 +18,7 @@ export default function Form({ formal }) {
       height: isAttending ? viewHeight : 0,
       transform: `translate3d(${isAttending ? 0 : '10%'},0,0)`,
     },
-    config: config.gentle,
+    config: config.default,
   });
 
   return (
@@ -33,7 +32,7 @@ export default function Form({ formal }) {
       />
       <Field name="name" title="Name" formal={formal} />
 
-      <Checkbox name="attending" formal={formal} title="I will be attending!" />
+      <Radio name="attending" formal={formal} title="I will be attending!" />
 
       <animated.div
         css={css`
@@ -57,6 +56,7 @@ export default function Form({ formal }) {
           <Checkbox name="alcohol" value="No" formal={formal} title="Alcohol" />
         </animated.div>
       </animated.div>
+      <Field name="extra" title="Extra information" formal={formal} />
     </>
   );
 }

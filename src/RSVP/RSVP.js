@@ -23,12 +23,13 @@ setLocale({
 
 const schema = yup.object().shape({
   name: yup.string().required(),
-  attending: yup.boolean().required(),
+  attending: yup.string().required(),
   food: yup.string(),
   alcohol: yup.boolean().when('attending', {
     is: true,
     then: yup.boolean().required(),
   }),
+  extra: yup.string(),
   'non-human-input': yup.string(),
 });
 
@@ -59,10 +60,12 @@ export default function RSVP() {
         body: new URLSearchParams(formData).toString(),
       })
         .then(() => setFormSubmitted(true))
-        .then(() => displayConfetti(formal.values.attending))
+        .then(() => displayConfetti(formal.values.attending === 'Yes'))
         .catch(error => console.error(error));
     },
   });
+  
+  const isAttending = formal.values.attending === 'Yes';
 
   const transitions = useTransition(formal.isSubmitted, null, {
     from: {
@@ -83,12 +86,12 @@ export default function RSVP() {
   });
 
   let buttonText = 'Sign me up baby!';
-  if (formal.isDirty && !formal.values.attending) {
+  if (formal.isDirty && !isAttending) {
     buttonText = 'See you another time?';
   }
 
   if (formSubmitted) {
-    if (formal.values.attending) {
+    if (isAttending) {
       buttonText = 'See who else is attending!';
     } else {
       buttonText = 'Wanna see who is attending?';
@@ -127,7 +130,7 @@ export default function RSVP() {
           >
             {item ? (
               <img
-                src={formal.values.attending ? Attending : NotAttending}
+                src={isAttending ? Attending : NotAttending}
                 alt=""
                 css={css`
                   width: 12rem;
@@ -136,7 +139,7 @@ export default function RSVP() {
                 `}
               />
             ) : (
-              <Form key={key} style={props} formal={formal} />
+              <Form key={key} style={props} formal={formal} isAttending={isAttending} />
             )}
           </animated.div>
         ))}

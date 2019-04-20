@@ -7,7 +7,7 @@ import { React } from 'react';
 import * as Color from 'color';
 import { Waypoint } from 'react-waypoint';
 
-const imageSize = 130;
+const imageSize = 160;
 
 export default function Person({ imgPrefix, name, start }) {
   const [inWaypoint, setInWaypoint] = useState(false);
@@ -37,7 +37,6 @@ export default function Person({ imgPrefix, name, start }) {
     height: ${imageSize}px;
     width: ${imageSize}px;
     object-fit: contain;
-    margin: 0.5rem 0;
   `;
 
   const title = (
@@ -66,19 +65,12 @@ export default function Person({ imgPrefix, name, start }) {
         css={cardCss}
         style={{ opacity: opacity.interpolate(o => 1 - o), transform }}
       >
+        {title}
         <div
           css={css`
             ${imgCss}
             background-image: url(/gallery/${imgPrefix}-default.png);
             margin-bottom: 0;
-          `}
-        />
-        <div
-          css={css`
-            ${imgCss}
-            background-image: url(/gallery/${imgPrefix}-default.png);
-            transform: rotate(180deg); 
-            margin-top: 0;
           `}
         />
       </animated.div>
@@ -90,15 +82,17 @@ export default function Person({ imgPrefix, name, start }) {
           transform: transform.interpolate(t => `${t} rotateY(180deg)`),
         }}
       >
+        <p css={css`
+        text-align: center;
+        margin: auto 0.5rem;
+        font-size: 0.8rem;
+        `}>Wow! This is the groom you guys.</p>
         <div
           css={css`
             ${imgCss}
             background-image: url(/gallery/${imgPrefix}-hover.png);
-            width: ${imageSize+20}px;
-            height: ${imageSize+20}px;
           `}
         />
-        {title}
       </animated.div>
     </div>
   );
