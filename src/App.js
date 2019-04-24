@@ -13,13 +13,12 @@ import Us from './Us';
 import Navbar, { navbarHeight } from './Navbar';
 import Main from './Main';
 import theme from './theme';
+import { CookiesProvider } from 'react-cookie';
 
 export default function App() {
   return (
     <div
       css={css`
-        height: 100vh;
-
         @media (min-width: 1025px) {
           min-height: 780px;
         }
@@ -59,6 +58,7 @@ export default function App() {
               background-color: ${theme.colors.peach};
               color: ${theme.colors.red};
               font-family: 'Open Sans';
+              margin-bottom: ${navbarHeight};
             }
 
             h1, h2, h3, h4, h5 {
@@ -87,7 +87,7 @@ export default function App() {
             select:-webkit-autofill:hover,
             select:-webkit-autofill:focus {
               border: none;
-              -webkit-text-fill-color: ${theme.colors.white};
+              -webkit-text-fill-color: ${theme.colors.black};
               box-shadow: 0 0 0px 1000px ${theme.colors.peachRed} inset;
               transition: background-color 5000s ease-in-out 0s;
             }
@@ -99,8 +99,6 @@ export default function App() {
               display: flex;
               flex-direction: column;
               padding-bottom: ${navbarHeight};
-              overflow: hidden;
-              max-height: 100vh;
 
               @media (min-width: ${theme.media.phone}px) {
                 padding-top: ${navbarHeight};
@@ -110,7 +108,9 @@ export default function App() {
           >
             <Bird />
             <Us />
+            <CookiesProvider>
             <Main />
+            </CookiesProvider>
           </div>
           <Navbar />
         </ThemeProvider>

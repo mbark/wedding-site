@@ -5,7 +5,7 @@ import { animated, useSpring } from 'react-spring';
 import { useState } from 'react';
 import { withRouter } from 'react-router';
 
-const Button = withRouter(({ formal, text, history }) => {
+const Button = withRouter(({ formal, text, isSubmitted, history }) => {
   const [toggle, toggleClicked] = useState(false);
   const props = useSpring({ x: toggle ? 0 : 1 });
 
@@ -25,6 +25,7 @@ const Button = withRouter(({ formal, text, history }) => {
   };
 
   const buttonStyle = css`
+    margin-bottom: 1rem;
     padding: 0.5rem 1.5rem;
     width: fit-content;
     background-color: rgb(112, 15, 0);
@@ -43,7 +44,7 @@ const Button = withRouter(({ formal, text, history }) => {
     }
   `;
 
-  let { disabled, type } = formal.isSubmitted
+  let { disabled, type } = isSubmitted
     ? { disabled: false, type: 'button' }
     : formal.getSubmitButtonProps();
 
@@ -55,7 +56,7 @@ const Button = withRouter(({ formal, text, history }) => {
       type={type}
       onClick={() => {
         toggleClicked(!toggle);
-        if (formal.isSubmitted) {
+        if (isSubmitted) {
           history.push('/guests');
         }
       }}

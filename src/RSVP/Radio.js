@@ -4,7 +4,7 @@ import css from '@emotion/css/macro';
 import { rowStyle } from './styles';
 import * as Color from 'color';
 
-export default function Radio({ name, value, title, formal }) {
+export default function Radio({ name, titles: { yes, no }, formal }) {
   const id = {
     yes: `${name}-yes`,
     no: `${name}-no`,
@@ -21,8 +21,8 @@ export default function Radio({ name, value, title, formal }) {
     & + label {
       cursor: pointer;
       text-indent: -9999px;
-      width: 1em;
-      height: 1em;
+      width: 1.3rem;
+      height: 1.3rem;
       border: 3px solid
         ${Color(theme.colors.red)
           .mix(Color(theme.colors.peach), 0.8)
@@ -61,7 +61,7 @@ export default function Radio({ name, value, title, formal }) {
     <div css={rowStyle}>
       <label
         css={css`
-          margin-right: 0.5rem;
+          margin-bottom: 0.5rem;
           display: flex;
           align-items: center;
           position: relative;
@@ -71,7 +71,7 @@ export default function Radio({ name, value, title, formal }) {
           id={id.yes}
           type="radio"
           name={name}
-          value='Yes'
+          value="Yes"
           checked={formal.values[name] === 'Yes'}
           onChange={e => formal.change(name, e.target.value)}
           css={toggleStyle}
@@ -82,7 +82,7 @@ export default function Radio({ name, value, title, formal }) {
             margin-right: 0.5rem;
           `}
         />
-        <span>I will be attending!</span>
+        <span>{yes}</span>
       </label>
       <label
         css={css`
@@ -95,7 +95,7 @@ export default function Radio({ name, value, title, formal }) {
           id={id.no}
           type="radio"
           name={name}
-          value='No'
+          value="No"
           checked={formal.values[name] === 'No'}
           onChange={e => formal.change(name, e.target.value)}
           css={toggleStyle}
@@ -106,7 +106,7 @@ export default function Radio({ name, value, title, formal }) {
             margin-right: 0.5rem;
           `}
         />
-        <span>I will not be attending!</span>
+        <span>{no}</span>
       </label>
     </div>
   );

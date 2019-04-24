@@ -3,6 +3,7 @@ import * as Color from 'color';
 const base = {
   colors: {
     white: '#FFF',
+    black: '#000',
     red: '#700F00',
     lightRed: '#B55B4B',
     peach: '#F2D6CC',

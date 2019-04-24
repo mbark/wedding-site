@@ -4,7 +4,6 @@ import css from '@emotion/css/macro';
 import React from 'react';
 import { animated, useSpring, config } from 'react-spring';
 import { usePrevious, useMeasure } from '../hooks';
-import Checkbox from './Checkbox';
 import Field from './Field';
 import Radio from './Radio';
 
@@ -32,7 +31,11 @@ export default function Form({ formal, isAttending }) {
       />
       <Field name="name" title="Name" formal={formal} />
 
-      <Radio name="attending" formal={formal} title="I will be attending!" />
+      <Radio
+        name="attending"
+        formal={formal}
+        titles={{ yes: 'I will be attending!', no: 'I will not be attending' }}
+      />
 
       <animated.div
         css={css`
@@ -53,7 +56,11 @@ export default function Form({ formal, isAttending }) {
           `}
         >
           <Field name="food" title="Food preferences" formal={formal} />
-          <Checkbox name="alcohol" value="No" formal={formal} title="Alcohol" />
+          <Radio
+            name="alcohol"
+            formal={formal}
+            titles={{ yes: 'I want alcohol!', no: 'No alcohol for me' }}
+          />
         </animated.div>
       </animated.div>
       <Field name="extra" title="Extra information" formal={formal} />

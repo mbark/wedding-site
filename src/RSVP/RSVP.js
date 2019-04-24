@@ -10,8 +10,10 @@ import * as yup from 'yup';
 import { useTransition, animated } from 'react-spring';
 import { setLocale } from 'yup';
 import Button from './Button';
+import LinkButton from './LinkButton';
 import Confetti from 'react-dom-confetti';
 import theme from '../theme';
+import { useCookies } from 'react-cookie';
 
 const confettiColors = Object.values(theme.colors);
 
@@ -25,25 +27,33 @@ const schema = yup.object().shape({
   name: yup.string().required(),
   attending: yup.string().required(),
   food: yup.string(),
-  alcohol: yup.boolean().when('attending', {
-    is: true,
-    then: yup.boolean().required(),
-  }),
+  alcohol: yup
+    .string()
+    .nullable()
+    .when('attending', {
+      is: 'Yes',
+      then: yup.string().required(),
+    }),
   extra: yup.string(),
   'non-human-input': yup.string(),
 });
 
 const initialValues = {
   name: '',
-  attending: false,
+  attending: null,
   food: '',
-  alcohol: false,
+  alcohol: null,
   'non-human-input': '',
 };
 
+const cookieName = 'rsvpInformation';
+
 export default function RSVP() {
   const [showConfetti, displayConfetti] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies([cookieName]);
+  const rsvpInformation = cookies[cookieName];
+
+  const removeHasRSVPed = () => removeCookie(cookieName);
 
   const formal = useFormal(initialValues, {
     schema,
@@ -59,15 +69,18 @@ export default function RSVP() {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formData).toString(),
       })
-        .then(() => setFormSubmitted(true))
+        .then(() => formal.reset())
+        .then(() => setCookie(cookieName, formal.values))
         .then(() => displayConfetti(formal.values.attending === 'Yes'))
         .catch(error => console.error(error));
     },
   });
-  
-  const isAttending = formal.values.attending === 'Yes';
 
-  const transitions = useTransition(formal.isSubmitted, null, {
+  const hasRSVPed = !!rsvpInformation;
+  const isAttending =
+    (hasRSVPed ? rsvpInformation.attending : formal.values.attending) === 'Yes';
+
+  const transitions = useTransition(rsvpInformation, null, {
     from: {
       opacity: 0,
       transform: `translate3d(0,50%,0)`,
@@ -90,7 +103,7 @@ export default function RSVP() {
     buttonText = 'See you another time?';
   }
 
-  if (formSubmitted) {
+  if (hasRSVPed) {
     if (isAttending) {
       buttonText = 'See who else is attending!';
     } else {
@@ -105,7 +118,6 @@ export default function RSVP() {
         display: flex;
         flex-direction: column;
         height: 100%;
-        width: 100%;
       `}
     >
       <h1>RSVP</h1>
@@ -121,16 +133,10 @@ export default function RSVP() {
         `}
       >
         {transitions.map(({ item, props, key }) => (
-          <animated.div
-            key={key}
-            style={props}
-            css={css`
-              ${item && 'align-self: center'};
-            `}
-          >
+          <animated.div key={key} style={props}>
             {item ? (
               <img
-                src={isAttending ? Attending : NotAttending}
+                src={item.attending === 'Yes' ? Attending : NotAttending}
                 alt=""
                 css={css`
                   width: 12rem;
@@ -139,7 +145,12 @@ export default function RSVP() {
                 `}
               />
             ) : (
-              <Form key={key} style={props} formal={formal} isAttending={isAttending} />
+              <Form
+                key={key}
+                style={props}
+                formal={formal}
+                isAttending={isAttending}
+              />
             )}
           </animated.div>
         ))}
@@ -152,7 +163,12 @@ export default function RSVP() {
             transform: translateX(50%);
           `}
         />
-        <Button formal={formal} text={buttonText} />
+        <Button formal={formal} text={buttonText} isSubmitted={hasRSVPed} />
+        {hasRSVPed && (
+          <LinkButton type="button" onClick={() => removeHasRSVPed()}>
+            RSVP for someone else
+          </LinkButton>
+        )}
       </form>
     </div>
   );

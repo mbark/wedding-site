@@ -8,6 +8,7 @@ import RSVP  from './RSVP/RSVP';
 import { usePrevious } from './hooks';
 import Guests from './guests/Guests';
 import useRouter from './useRouter';
+import Info from './info/Info';
 
 export default function Main() {
   const paths = ['/', '/rsvp', '/info', '/guests'];
@@ -40,7 +41,6 @@ export default function Main() {
     <div
       css={css`
         position: relative;
-        overflow-y: auto;
       `}
     >
       {transitions.map(({ item, props, key }) => (
@@ -50,14 +50,13 @@ export default function Main() {
           css={css`
             margin-top: 2rem;
             width: 100%;
-            align-self: flex-end;
-            display: flex;
           `}
         >
           <Switch location={item}>
             <Route exact path="/" component={Frontpage} />
             <Route path="/rsvp" component={RSVP} />
             <Route path="/guests" component={Guests} />
+            <Route path="/info" component={Info} />
             <Route component={Frontpage} />
           </Switch>
         </animated.div>

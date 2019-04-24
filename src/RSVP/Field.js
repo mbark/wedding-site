@@ -32,7 +32,7 @@ export default function Field({ name, title, formal }) {
     border: none;
     background-color: ${theme.colors.peachRed};
     padding: 20px 10px 10px 10px;
-    color: white;
+    color: ${theme.colors.black};
     z-index: 2;
 
     &:focus {
