@@ -5,22 +5,21 @@
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@kevinwolf/formal-web": "^0.1.0",
-    "color": "^3.1.0",
+    "color": "^3.1.1",
     "emotion-theming": "^10.0.10",
-    "luxon": "^1.12.0",
+    "luxon": "^1.13.2",
     "normalize.css": "^8.0.1",
-    "prettier": "^1.16.4",
+    "prettier": "^1.17.1",
     "react": "^16.8.6",
-    "react-cookie": "^3.1.2",
+    "react-cookie": "^4.0.0",
     "react-dom": "^16.8.6",
-    "react-dom-confetti": "^0.1.0",
+    "react-dom-confetti": "^0.1.1",
     "react-emotion": "^10.0.0",
     "react-google-maps": "^9.4.5",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8",
-    "react-spring": "^8.0.19",
-    "react-waypoint": "^9.0.1",
+    "react-scripts": "3.0.1",
+    "react-spring": "^8.0.20",
     "resize-observer-polyfill": "^1.5.1",
     "yup": "^0.27.0"
   },
@@ -45,8 +44,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.0",
     "http-proxy-middleware": "^0.19.1"
   }
 }

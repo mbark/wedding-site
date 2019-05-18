@@ -3,14 +3,11 @@ import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
-import { React } from 'react';
 import * as Color from 'color';
-import { Waypoint } from 'react-waypoint';
 
 const imageSize = 160;
 
 export default function Person({ imgPrefix, name, start }) {
-  const [inWaypoint, setInWaypoint] = useState(false);
   const [flipped, setFlipped] = useState(false);
   const { transform, opacity } = useSpring({
     opacity: flipped ? 1 : 0,
