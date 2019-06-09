@@ -1,11 +1,20 @@
 /** @jsx jsx */
+import { useState } from 'react';
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import Person from './Person';
+import PersonInfo from './PersonInfo';
 
 export default function Guests() {
+  const persons = [
+    { id: 'martin', name: 'Martin Barksten' },
+    { id: 'berit', name: 'Berit Zöllner Wohlfart' },
+    { id: 'emma', name: 'Emma Grundén' },
+  ];
+  const [expanded, setExpanded] = useState(null);
+
   return (
-    <div css={css``}>
+    <div>
       <h1
         css={css`
           margin-left: 1rem;
@@ -15,17 +24,31 @@ export default function Guests() {
       </h1>
       <div
         css={css`
-          width: 100vw;
-          display: grid;
-          grid-template-columns: auto [first] 160px 20px [second] 160px auto;
-          grid-template-rows: 230px 20px;
+          position: relative;
         `}
       >
-        <Person imgPrefix="martin" name="Martin Barksten" start="first" />
-        <Person imgPrefix="berit" name="Berit Zöllner Wohlfart" start="second" />
-        {/* <Person name="berit" /> */}
-        {/* <Person name="berit" /> */}
-        {/* <Person name="berit" /> */}
+        <div
+          css={css`
+            margin: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, 160px);
+            grid-auto-rows: 160px;
+            grid-gap: 20px;
+          `}
+        >
+          {persons.map(person => {
+            return (
+              <Person
+                key={person.id}
+                person={person}
+                onClick={() => setExpanded(person)}
+              />
+            );
+          })}
+        </div>
+        {expanded && (
+          <PersonInfo person={expanded} onHide={() => setExpanded(null)} />
+        )}
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ export function useMeasure() {
   useEffect(() => {
     if (ref.current) ro.observe(ref.current);
     return () => ro.disconnect();
-  }, []);
+  }, [ro]);
   return [{ ref }, bounds];
 }
 

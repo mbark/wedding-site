@@ -29,7 +29,7 @@ export default function App() {
           <Global
             styles={theme => css` 
             @font-face {
-              font-family: "Mont";
+              font-family: ${theme.fonts.mont};
               src: url("${MontEot}");
               src: url("${MontOtf}");
               src: url("${MontWoff}");
@@ -55,25 +55,28 @@ export default function App() {
             }
 
             body {
-              background-color: ${theme.colors.peach};
-              color: ${theme.colors.red};
-              font-family: 'Open Sans';
+              background-color: ${theme.colors.peach.string()};
+              color: ${theme.colors.red.string()};
+              font-family: ${theme.fonts.openSans};
               margin-bottom: ${navbarHeight};
             }
 
             h1, h2, h3, h4, h5 {
-              font-family: "Mont";
+              font-family: ${theme.fonts.mont};
               margin-top: 0;
             }
 
             h1 {
-              text-transform: uppercase;
               font-size: 3rem;
               line-height: 0.9em;
             }
-          
+
+            h1, h2, h3 {
+              text-transform: uppercase; 
+            }
+            
             h4 {
-              text-transform: uppercase;
+              font-family: ${theme.fonts.openSans};
             }
 
             /* Fix styling for form autofill */
@@ -87,8 +90,8 @@ export default function App() {
             select:-webkit-autofill:hover,
             select:-webkit-autofill:focus {
               border: none;
-              -webkit-text-fill-color: ${theme.colors.black};
-              box-shadow: 0 0 0px 1000px ${theme.colors.peachRed} inset;
+              -webkit-text-fill-color: ${theme.colors.black.string()};
+              box-shadow: 0 0 0px 1000px ${theme.colors.peachRed.string()} inset;
               transition: background-color 5000s ease-in-out 0s;
             }
           `}
@@ -109,7 +112,7 @@ export default function App() {
             <Bird />
             <Us />
             <CookiesProvider>
-            <Main />
+              <Main />
             </CookiesProvider>
           </div>
           <Navbar />

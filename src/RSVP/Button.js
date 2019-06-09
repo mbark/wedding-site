@@ -24,7 +24,7 @@ const Button = withRouter(({ formal, text, isSubmitted, history }) => {
       }),
   };
 
-  const buttonStyle = css`
+  const buttonStyle = theme => css`
     margin-bottom: 1rem;
     padding: 0.5rem 1.5rem;
     width: fit-content;
@@ -32,7 +32,7 @@ const Button = withRouter(({ formal, text, isSubmitted, history }) => {
     outline: none;
     color: white;
     border-style: none;
-    font-family: 'Mont';
+    font-family: ${theme.fonts.mont};
     border-radius: 8px;
     cursor: pointer;
     &:hover {

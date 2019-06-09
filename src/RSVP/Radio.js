@@ -2,7 +2,6 @@
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import { rowStyle } from './styles';
-import * as Color from 'color';
 
 export default function Radio({ name, titles: { yes, no }, formal }) {
   const id = {
@@ -24,8 +23,8 @@ export default function Radio({ name, titles: { yes, no }, formal }) {
       width: 1.3rem;
       height: 1.3rem;
       border: 3px solid
-        ${Color(theme.colors.red)
-          .mix(Color(theme.colors.peach), 0.8)
+        ${theme.colors.red
+          .mix(theme.colors.peach, 0.8)
           .string()};
       border-radius: 999px;
       transition: background-color 0.2s;

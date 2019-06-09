@@ -37,7 +37,7 @@ export default function Navbar() {
             margin-bottom: 0.3rem;
           `}
         />
-        <h4
+        <h3
           css={css`
             color: #700f00;
             font-size: 0.8rem;
@@ -45,7 +45,7 @@ export default function Navbar() {
           `}
         >
           {text}
-        </h4>
+        </h3>
       </NavLink>
     );
   };
@@ -57,7 +57,7 @@ export default function Navbar() {
         width: 100vw;
         border-top: 1px solid rgba(112, 14, 0, 0.4);
         box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
-        background-color: ${theme.colors.peach};
+        background-color: ${theme.colors.peach.string()};
         height: ${navbarHeight};
         display: flex;
         justify-content: space-around;

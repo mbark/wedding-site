@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
-import React from 'react';
 import { animated, useSpring, config } from 'react-spring';
 import { usePrevious, useMeasure } from '../hooks';
 import Field from './Field';
@@ -21,7 +20,7 @@ export default function Form({ formal, isAttending }) {
   });
 
   return (
-    <>
+    <div>
       <input
         type="text"
         css={css`
@@ -64,6 +63,6 @@ export default function Form({ formal, isAttending }) {
         </animated.div>
       </animated.div>
       <Field name="extra" title="Extra information" formal={formal} />
-    </>
+    </div>
   );
 }

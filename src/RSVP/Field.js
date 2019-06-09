@@ -30,9 +30,9 @@ export default function Field({ name, title, formal }) {
     outline: none;
     border-radius: 6px;
     border: none;
-    background-color: ${theme.colors.peachRed};
+    background-color: ${theme.colors.peachRed.string()};
     padding: 20px 10px 10px 10px;
-    color: ${theme.colors.black};
+    color: ${theme.colors.black.string()};
     z-index: 2;
 
     &:focus {
@@ -54,7 +54,7 @@ export default function Field({ name, title, formal }) {
     height: 0;
     width: 0;
     opacity: 0;
-    background: ${theme.colors.red};
+    background: ${theme.colors.red.string()};
     border-radius: 7px;
     transition: opacity 0.1s, height 0.3s, width 0.3s 0.1s;
   `;

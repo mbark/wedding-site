@@ -1,13 +1,10 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
-import * as Color from 'color';
 
 export default function LinkButton({ children, ...props }) {
   const fadedColor = theme =>
-    Color(theme.colors.red)
-      .mix(Color(theme.colors.peach), 0.4)
-      .string();
+    theme.colors.red.mix(theme.colors.peach, 0.4).string();
 
   return (
     <button
@@ -23,8 +20,8 @@ export default function LinkButton({ children, ...props }) {
         transition: background-color 0.2s;
 
         &:hover {
-          border-color: ${theme.colors.red};
-        color: ${theme.colors.red};
+          border-color: ${theme.colors.red.string()};
+          color: ${theme.colors.red.string()};
         }
       `}
       {...props}
