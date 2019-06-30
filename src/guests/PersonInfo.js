@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
+import { Image } from 'cloudinary-react';
 
 export default function PersonInfo({ person, onHide }) {
   const node = useRef();
@@ -26,11 +27,11 @@ export default function PersonInfo({ person, onHide }) {
     <div ref={node}>
       <div
         css={theme => css`
-          position: absolute;
+          position: fixed;
           z-index: 1000;
-          top: 0;
+          top: 50%;
           left: 50%;
-          transform: translateX(-50%);
+          transform: translate(-50%, -50%);
           width: 320px;
           height: 200px;
           border: 1px solid ${theme.colors.red.string()};
@@ -43,16 +44,15 @@ export default function PersonInfo({ person, onHide }) {
           display: flex;
         `}
       >
-        <img
-          src={`/gallery/${person.id}-more.png`}
-          alt=""
+        <div
           css={css`
             align-self: center;
             justify-self: center;
-            height: 140px;
             margin-right: 1rem;
           `}
-        />
+        >
+          <Image publicId={`${person.id}-more`} width="140" height="140" />
+        </div>
         <div
           css={css`
             display: flex;

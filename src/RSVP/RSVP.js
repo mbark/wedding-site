@@ -19,12 +19,13 @@ const confettiColors = Object.values(theme.colors);
 
 setLocale({
   mixed: {
-    required: 'Please fill out this field',
+    notType: 'Please select one of the options',
+    required: 'Please fill out this field.',
   },
 });
 
 const schema = yup.object().shape({
-  name: yup.string().required(),
+  id: yup.string().required(),
   attending: yup.string().required(),
   food: yup.string(),
   alcohol: yup
@@ -39,7 +40,7 @@ const schema = yup.object().shape({
 });
 
 const initialValues = {
-  name: '',
+  id: '',
   attending: null,
   food: '',
   alcohol: null,

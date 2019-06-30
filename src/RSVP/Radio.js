@@ -23,9 +23,7 @@ export default function Radio({ name, titles: { yes, no }, formal }) {
       width: 1.3rem;
       height: 1.3rem;
       border: 3px solid
-        ${theme.colors.red
-          .mix(theme.colors.peach, 0.8)
-          .string()};
+        ${theme.colors.red.mix(theme.colors.peach, 0.8).string()};
       border-radius: 999px;
       transition: background-color 0.2s;
 
@@ -107,6 +105,15 @@ export default function Radio({ name, titles: { yes, no }, formal }) {
         />
         <span>{no}</span>
       </label>
+      {formal.errors[name] && (
+        <span
+          css={css`
+            font-weight: bold;
+          `}
+        >
+          {formal.errors[name]}
+        </span>
+      )}
     </div>
   );
 }

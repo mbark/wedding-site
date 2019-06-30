@@ -5,8 +5,12 @@
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@kevinwolf/formal-web": "^0.1.0",
+    "cloudinary-react": "^1.1.1",
     "color": "^3.1.1",
+    "dotenv": "^8.0.0",
+    "downshift": "^3.2.10",
     "emotion-theming": "^10.0.10",
+    "faunadb": "^2.6.1",
     "luxon": "^1.13.2",
     "normalize.css": "^8.0.1",
     "prettier": "^1.17.1",
@@ -46,6 +50,8 @@
   "devDependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.0",
-    "http-proxy-middleware": "^0.19.1"
+    "http-proxy-middleware": "^0.19.1",
+    "netlify-lambda": "^1.4.13",
+    "request": "^2.88.0"
   }
 }

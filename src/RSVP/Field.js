@@ -2,7 +2,18 @@
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 
-export default function Field({ name, title, formal }) {
+export default function Field({
+  name,
+  title,
+  formal,
+  inputProps,
+  error,
+  value,
+}) {
+  const hasValue = formal ? formal.values[name] : !!value;
+  const fieldError = formal ? formal.errors[name] : error;
+  const fieldProps = formal ? formal.getFieldProps(name) : inputProps;
+
   const containerStyle = css`
     position: relative;
     width: 300px;
@@ -67,7 +78,7 @@ export default function Field({ name, title, formal }) {
     transform: translateY(-50%);
     z-index: 3;
     transition: 0.2s ease all;
-    ${formal.values[name] && hoveringLabel}
+    ${hasValue && hoveringLabel}
   `;
 
   return (
@@ -77,21 +88,25 @@ export default function Field({ name, title, formal }) {
       `}
     >
       <div css={containerStyle}>
-        <input css={inputStyle} {...formal.getFieldProps(name)} type="text" />
+        <input css={inputStyle} type="text" {...fieldProps} />
         <span css={barStyle} />
         <label css={labelStyle} htmlFor={name}>
           {title}
         </label>
       </div>
-      {formal.errors[name] && (
+      {fieldError && (
         <span
           css={css`
             font-weight: bold;
           `}
         >
-          {formal.errors[name]}
+          {fieldError}
         </span>
       )}
     </div>
   );
 }
+
+Field.defaultProps = {
+  inputProps: {},
+};

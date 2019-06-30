@@ -5,6 +5,7 @@ import { animated, useSpring, config } from 'react-spring';
 import { usePrevious, useMeasure } from '../hooks';
 import Field from './Field';
 import Radio from './Radio';
+import Name from './Name';
 
 export default function Form({ formal, isAttending }) {
   const previous = usePrevious(isAttending);
@@ -21,6 +22,7 @@ export default function Form({ formal, isAttending }) {
 
   return (
     <div>
+      <Name formal={formal}/>
       <input
         type="text"
         css={css`
@@ -28,7 +30,6 @@ export default function Form({ formal, isAttending }) {
         `}
         {...formal.getFieldProps('non-human-input')}
       />
-      <Field name="name" title="Name" formal={formal} />
 
       <Radio
         name="attending"

@@ -1,17 +1,35 @@
 /** @jsx jsx */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import Person from './Person';
 import PersonInfo from './PersonInfo';
 
 export default function Guests() {
-  const persons = [
-    { id: 'martin', name: 'Martin Barksten' },
-    { id: 'berit', name: 'Berit Zöllner Wohlfart' },
-    { id: 'emma', name: 'Emma Grundén' },
-  ];
+  const [persons, setPersons] = useState([]);
   const [expanded, setExpanded] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          '/.netlify/functions/fetchAttendingGuests',
+          {
+            method: 'GET',
+          },
+        );
+
+        const json = await response.json();
+        setPersons(
+          json.map(({ data }) => data).filter(person => person.isAttending),
+        );
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -22,6 +40,7 @@ export default function Guests() {
       >
         Guests
       </h1>
+
       <div
         css={css`
           position: relative;

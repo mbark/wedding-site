@@ -14,6 +14,7 @@ import Navbar, { navbarHeight } from './Navbar';
 import Main from './Main';
 import theme from './theme';
 import { CookiesProvider } from 'react-cookie';
+import { CloudinaryContext } from 'cloudinary-react';
 
 export default function App() {
   return (
@@ -96,26 +97,28 @@ export default function App() {
             }
           `}
           />
-          <div
-            css={theme => css`
-              position: relative;
-              display: flex;
-              flex-direction: column;
-              padding-bottom: ${navbarHeight};
+          <CloudinaryContext cloudName="martin-lisa-wedding">
+            <div
+              css={theme => css`
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                padding-bottom: ${navbarHeight};
 
-              @media (min-width: ${theme.media.phone}px) {
-                padding-top: ${navbarHeight};
-                padding-bottom: 0;
-              }
-            `}
-          >
-            <Bird />
-            <Us />
-            <CookiesProvider>
-              <Main />
-            </CookiesProvider>
-          </div>
-          <Navbar />
+                @media (min-width: ${theme.media.phone}px) {
+                  padding-top: ${navbarHeight};
+                  padding-bottom: 0;
+                }
+              `}
+            >
+              <Bird />
+              <Us />
+              <CookiesProvider>
+                <Main />
+              </CookiesProvider>
+            </div>
+            <Navbar />
+          </CloudinaryContext>
         </ThemeProvider>
       </BrowserRouter>
     </div>

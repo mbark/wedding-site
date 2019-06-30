@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
+import { Image } from 'cloudinary-react';
 
 export default function Person({ person, onClick }) {
   return (
@@ -24,16 +25,15 @@ export default function Person({ person, onClick }) {
           css={theme => css`
             height: 120px;
             width: 120px;
-            background-position: top;
-            background-repeat: no-repeat;
-            background-size: 100%;
-            background-image: url(/gallery/${person.id}-default.png);
-            object-fit: contain;
             border-radius: 100%;
+            overflow: hidden;
             border: 1px solid ${theme.colors.red.string()};
             box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
           `}
-        />
+        >
+          <Image publicId={`${person.id}-default`} width="120" height="120" />
+        </div>
+
         <h4
           css={theme => css`
             margin-top: 0.5rem;
