@@ -4,9 +4,8 @@ import {
   GoogleMap,
   Marker,
 } from 'react-google-maps';
-import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 import Hosts from '../resources/images/hosts.png';
-import React, { useState } from 'react';
+import React from 'react';
 
 const googleMapStyle = [
   {
@@ -53,25 +52,14 @@ const Component = withScriptjs(
         onClick={props.toggleOpen}
         title="Our hosts"
         icon={markerIcon}
-      >
-        {props.isOpen && (
-          <InfoBox
-            onCloseClick={props.toggleOpen}
-            options={{ closeBoxURL: ``, enableEventPropagation: true }}
-          >
-            <div>Hello, Kaohsiung!</div>
-          </InfoBox>
-        )}
-      </Marker>
+      />
     </GoogleMap>
   )),
 );
 
 export default function Map() {
   const location = { lat: 59.332387, lng: 18.076871 };
-  const [isOpen, setIsOpen] = useState(false);
   const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
-
 
   return apiKey ? (
     <Component
@@ -83,8 +71,6 @@ export default function Map() {
       }
       mapElement={<div style={{ height: `100%` }} />}
       location={location}
-      isOpen={isOpen}
-      toggleOpen={() => setIsOpen(!isOpen)}
     />
   ) : (
     <div />

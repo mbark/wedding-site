@@ -1,30 +1,30 @@
 /** @jsx jsx */
-import { useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import { Image } from 'cloudinary-react';
 
+function HideOverlay({ onHide }) {
+  return ReactDOM.createPortal(
+    <div
+      onClick={onHide}
+      css={css`
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 999;
+      `}
+    />,
+    document.body,
+  );
+}
+
 export default function PersonInfo({ person, onHide }) {
-  const node = useRef();
-
-  useEffect(() => {
-    const onClick = e => {
-      if (node.current.contains(e.target)) {
-        return;
-      }
-
-      onHide();
-    };
-
-    document.addEventListener('mousedown', onClick);
-
-    return () => {
-      document.removeEventListener('mousedown', onClick);
-    };
-  }, [node, onHide]);
-
   return (
-    <div ref={node}>
+    <div>
+      <HideOverlay onHide={onHide} />
       <div
         css={theme => css`
           position: fixed;

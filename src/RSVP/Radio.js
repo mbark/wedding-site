@@ -28,7 +28,7 @@ export default function Radio({ name, titles: { yes, no }, formal }) {
       transition: background-color 0.2s;
 
       &:hover {
-        border-color: ${theme.colors.red};
+        border-color: ${theme.colors.red.string()};
       }
     }
 
@@ -44,13 +44,13 @@ export default function Radio({ name, titles: { yes, no }, formal }) {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background-color: ${theme.colors.red};
+        background-color: ${theme.colors.red.string()};
         border-radius: 999px;
       }
     }
 
     &:focus + label {
-      border-color: ${theme.colors.red};
+      border-color: ${theme.colors.red.string()};
     }
   `;
 
