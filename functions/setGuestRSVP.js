@@ -1,6 +1,5 @@
 import faunadb from 'faunadb';
 import dotenv from 'dotenv';
-import querystring from 'querystring';
 
 dotenv.config();
 
@@ -17,23 +16,24 @@ const formInputAsBool = input => {
 };
 
 exports.handler = async (event, context) => {
-  let { id, attending, food, alcohol } = querystring.parse(event.body);
+  console.log('Received submission', event.body);
+  let { id, attending, food, alcohol } = JSON.parse(event.body);
   attending = formInputAsBool(attending);
   alcohol = formInputAsBool(alcohol);
+
+  const data = { isAttending: attending, information: { food, alcohol } };
+
+  console.log('Updating attendance', data);
 
   const response = await client.query(
     q.Paginate(q.Match(q.Index('guest_by_id'), id)),
   );
 
-  const updateAttendance = response.data.map(ref =>
-    q.Update(ref, {
-      data: { isAttending: attending, information: { food, alcohol } },
-    }),
-  );
+  const updateAttendance = response.data.map(ref => q.Update(ref, { data }));
 
   await client.query(updateAttendance);
   return {
     statusCode: 200,
-    body: JSON.stringify({}),
+    body: JSON.stringify(data),
   };
 };

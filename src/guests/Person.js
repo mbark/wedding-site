@@ -1,9 +1,27 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
+import { animated, useSpring } from 'react-spring';
 import css from '@emotion/css/macro';
 import { Image } from 'cloudinary-react';
 
-export default function Person({ person, onClick }) {
+export default function Person({ person, isExpanded, onClick }) {
+  const props = useSpring({ x: isExpanded ? 0 : 1 });
+
+  const range = [0, 0.5, 1];
+  const style = {
+    transform: props.x
+      .interpolate({ range, output: [0, 5, 0] })
+      .interpolate(x => {
+        const scale = 1 - x / 20;
+        return `translateY(${x}px) scale(${scale})`;
+      }),
+    boxShadow: props.x
+      .interpolate({ range, output: [8, 4, 8] })
+      .interpolate(spread => {
+        return `0 8px ${spread}px -6px rgba(0, 0, 0, 0.5)`;
+      }),
+  };
+
   return (
     <div
       css={css`
@@ -21,7 +39,8 @@ export default function Person({ person, onClick }) {
           align-items: center;
         `}
       >
-        <div
+        <animated.div
+          style={style}
           css={theme => css`
             height: 120px;
             width: 120px;
@@ -32,7 +51,7 @@ export default function Person({ person, onClick }) {
           `}
         >
           <Image publicId={`${person.id}-default`} width="120" height="120" />
-        </div>
+        </animated.div>
 
         <h4
           css={theme => css`

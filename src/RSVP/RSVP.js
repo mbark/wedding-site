@@ -59,16 +59,10 @@ export default function RSVP() {
   const formal = useFormal(initialValues, {
     schema,
     onSubmit: values => {
-      const formData = Object.keys(values).reduce((formData, key) => {
-        formData.append(key, values[key]);
-        return formData;
-      }, new FormData());
-      formData.append('form-name', 'rsvp');
-
-      fetch('/', {
+      fetch('/.netlify/functions/setGuestRSVP', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
       })
         .then(() => formal.reset())
         .then(() => setCookie(cookieName, formal.values))

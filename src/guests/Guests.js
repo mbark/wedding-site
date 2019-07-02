@@ -55,19 +55,16 @@ export default function Guests() {
             grid-gap: 20px;
           `}
         >
-          {persons.map(person => {
-            return (
-              <Person
-                key={person.id}
-                person={person}
-                onClick={() => setExpanded(person)}
-              />
-            );
-          })}
+          {persons.map(person => (
+            <Person
+              key={person.id}
+              person={person}
+              isExpanded={expanded && expanded.id === person.id}
+              onClick={() => setExpanded(person)}
+            />
+          ))}
         </div>
-        {expanded && (
-          <PersonInfo person={expanded} onHide={() => setExpanded(null)} />
-        )}
+        <PersonInfo person={expanded} onHide={() => setExpanded(null)} />
       </div>
     </div>
   );
