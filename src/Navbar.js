@@ -62,6 +62,7 @@ export default function Navbar() {
         display: flex;
         justify-content: space-around;
         align-items: center;
+        z-index: 200;
 
         @media (max-width: ${theme.media.phone-1}px) {
           bottom: 0;

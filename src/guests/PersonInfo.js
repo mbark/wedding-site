@@ -6,7 +6,7 @@ import css from '@emotion/css/macro';
 import { Image } from 'cloudinary-react';
 
 function HideOverlay({ onHide }) {
-  return ReactDOM.createPortal(
+  return (
     <div
       onClick={onHide}
       css={css`
@@ -16,9 +16,10 @@ function HideOverlay({ onHide }) {
         top: 0;
         left: 0;
         z-index: 100;
+        background-color: black;
+        opacity: 0.2;
       `}
-    />,
-    document.body,
+    />
   );
 }
 
@@ -29,9 +30,11 @@ export default function PersonInfo({ person, onHide }) {
     leave: { opacity: 0, transform: 'translate(-50%,-80%)' },
   });
 
-  return (
+  const defaultText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+  do eiusmod tempor incididunt ut labore et dolore magna aliqua.`;
+
+  return ReactDOM.createPortal(
     <div>
-      {person && <HideOverlay onHide={onHide} />}
       {transitions.map(
         ({ item, key, props }) =>
           item && (
@@ -85,13 +88,14 @@ export default function PersonInfo({ person, onHide }) {
                     margin-top: 0;
                   `}
                 >
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  {item.text || defaultText}
                 </p>
               </div>
             </animated.div>
           ),
       )}
-    </div>
+      {person && <HideOverlay onHide={onHide} />}
+    </div>,
+    document.body,
   );
 }

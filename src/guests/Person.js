@@ -2,7 +2,8 @@
 import { jsx } from '@emotion/core';
 import { animated, useSpring } from 'react-spring';
 import css from '@emotion/css/macro';
-import { Image } from 'cloudinary-react';
+import { Image, Transformation } from 'cloudinary-react';
+import LazyLoad from 'react-lazyload';
 
 export default function Person({ person, isExpanded, onClick }) {
   const props = useSpring({ x: isExpanded ? 0 : 1 });
@@ -50,7 +51,11 @@ export default function Person({ person, isExpanded, onClick }) {
             box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
           `}
         >
-          <Image publicId={`${person.id}-default`} width="120" height="120" />
+          <LazyLoad height={120}>
+            <Image publicId={`${person.id}-default`} width="120" height="120">
+              <Transformation quality="auto" fetchFormat="auto" />
+            </Image>
+          </LazyLoad>
         </animated.div>
 
         <h4

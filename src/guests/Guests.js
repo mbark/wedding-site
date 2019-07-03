@@ -20,9 +20,28 @@ export default function Guests() {
         );
 
         const json = await response.json();
-        setPersons(
-          json.map(({ data }) => data).filter(person => person.isAttending),
-        );
+        const persons = json.map(({ data }) => data);
+
+        const isUs = ({ id }) => id === 'martin-barksten' || id === 'lisa';
+        const us = persons.filter(isUs);
+
+        const guests = persons
+          .filter(person => !isUs(person))
+          .sort((person1, person2) => {
+            if (person1.name < person2.name) {
+              return -1;
+            }
+
+            if (person1.name > person2.name) {
+              return 1;
+            }
+
+            return 0;
+          });
+
+        guests.unshift(...us);
+
+        setPersons(guests);
       } catch (err) {
         console.error(err);
       }
