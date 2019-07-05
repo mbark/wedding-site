@@ -9,31 +9,33 @@ export default function Card({ title, children }) {
       css={theme => css`
         position: relative;
         display: flex;
-        padding: 1rem;
+        flex-direction: column;
         border-radius: 4px;
-        background-color: ${theme.colors.red
-          .mix(theme.colors.peach, 0.9)
-          .string()};
+        background-color: ${theme.colors.peachRed.string()};
         box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
         margin-bottom: 2rem;
       `}
     >
-      <h2
+      <div
         css={css`
-          align-self: flex-end;
+          padding: 1rem 1rem 0 1rem;
+        `}
+      >
+        {children}
+      </div>
+
+      <h2
+        css={theme => css`
           position: sticky;
           left: 0;
           bottom: ${navbarHeight};
-          word-spacing: 100vw;
-          width: min-content;
           margin-block-end: 0;
-          margin-right: 1rem;
+          background-color: ${theme.colors.peachRed.string()};
+          padding: 1rem;
         `}
       >
         {title}
       </h2>
-
-      {children}
     </div>
   );
 }
