@@ -57,21 +57,48 @@ const Component = withScriptjs(
   )),
 );
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    console.error(error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <div>Failed to load map</div>;
+    }
+
+    return this.props.children;
+  }
+}
+
 export default function Map() {
   const location = { lat: 59.332387, lng: 18.076871 };
   const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
   return apiKey ? (
-    <Component
-      isMarkerShown
-      googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&v=3.exp&libraries=geometry,drawing,places`}
-      loadingElement={<div style={{ height: `100%` }} />}
-      containerElement={
-        <div style={{ height: `400px`, marginLeft: '-1rem', width: '100vw' }} />
-      }
-      mapElement={<div style={{ height: `100%` }} />}
-      location={location}
-    />
+    <ErrorBoundary>
+      <Component
+        isMarkerShown
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&v=3.exp&libraries=geometry,drawing,places`}
+        loadingElement={<div style={{ height: `100%` }} />}
+        containerElement={
+          <div
+            style={{ height: `400px`, marginLeft: '-1rem', width: '100vw' }}
+          />
+        }
+        mapElement={<div style={{ height: `100%` }} />}
+        location={location}
+      />
+    </ErrorBoundary>
   ) : (
     <div />
   );
