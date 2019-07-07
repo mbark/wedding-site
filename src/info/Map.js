@@ -92,7 +92,11 @@ export default function Map() {
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={
           <div
-            style={{ height: `400px`, marginLeft: '-1rem', width: '100vw' }}
+            style={{
+              height: `400px`,
+              margin: '-1rem -1rem 0 -1rem',
+              borderRadius: '4px',
+            }}
           />
         }
         mapElement={<div style={{ height: `100%` }} />}

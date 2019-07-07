@@ -22,6 +22,8 @@ export default function Guests() {
         const json = await response.json();
         const persons = json.map(({ data }) => data);
 
+        console.log(persons);
+
         const isUs = ({ id }) => id === 'martin-barksten' || id === 'lisa';
         const us = persons.filter(isUs);
 

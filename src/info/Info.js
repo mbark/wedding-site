@@ -1,9 +1,10 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
-import Map from './Map';
+import Day from './Day';
+import HostToast from './HostToast';
 import Card from './Card';
-import Guests from '../resources/images/guests.png';
+import { Image, Transformation } from 'cloudinary-react';
 
 export default function Info() {
   return (
@@ -12,231 +13,112 @@ export default function Info() {
         padding: 0 1rem;
       `}
     >
-      <h1>Information</h1>
+      <h1>Info</h1>
 
-      <Card title="Day of the wedding">
-        <dl
-          css={css`
-            display: grid;
-            grid-template-columns: [time] auto [text] minmax(auto, 170px);
-            grid-auto-rows: auto;
-            grid-row-gap: 1rem;
-            grid-column-gap: 0.5rem;
+      <Day />
 
-            & > dt {
-              text-align: right;
-              grid-column: time;
-              font-weight: bold;
-            }
-
-            & > dd {
-              grid-column: text;
-              margin-inline-start: 0;
-            }
-          `}
-        >
-          <dt>4 PM</dt>
-          <dd>Boat leaves for Ekensdal.</dd>
-
-          <dt>5 PM</dt>
-          <dd>Wedding ceremony</dd>
-
-          <dt>5.30 PM</dt>
-          <dd>Mingle and cake</dd>
-
-          <dt>6.30 PM</dt>
-          <dd>Dinner</dd>
-
-          <dt>11 PM</dt>
-          <dd>DANCE</dd>
-
-          <dt>2 AM</dt>
-          <dd>
-            Bus leaves from Ekensdal to Brunkebergs torg (if you want to leave
-            earlier (but why would you?) there will be taxis or you can also
-            take public transportation)
-          </dd>
-        </dl>
-      </Card>
-
-      <Card title="Hosts and toasts">
-        <div>
-          <div
-            css={css`
-              display: grid;
-              grid-template-columns: 50% 50%;
-              grid-template-rows: auto;
-              grid-template-areas:
-                'cecilia ariel'
-                'info info';
-            `}
-          >
-            <div
-              css={css`
-                grid-area: cecilia;
-                padding: 0 0.5rem;
-                text-align: center;
-              `}
-            >
-              <img
-                src={Guests}
-                css={css`
-                  width: 100%;
-                `}
-                alt="Guests"
-              />
-              <h3
-                css={css`
-                  margin-block-end: 0;
-                `}
-              >
-                Cecilia
-              </h3>
-            </div>
-            <div
-              css={css`
-                grid-area: ariel;
-                padding: 0 0.5rem;
-                text-align: center;
-              `}
-            >
-              <img
-                src={Guests}
-                css={css`
-                  width: 100%;
-                `}
-                alt="Guests"
-              />
-              <h3
-                css={css`
-                  margin-block-end: 0;
-                `}
-              >
-                Ariel
-              </h3>
-            </div>
-            <p
-              css={css`
-                grid-area: info;
-                margin-block-start: 0;
-                margin-block-end: 0;
-                padding: 1rem 0.5rem;
-              `}
-            >
-              These are our lovely toastmasters who will make our dinner
-              fabulous and epic! If you wish to hold a speech or do something
-              else fun during the dinner. These are the guys you should talk to!
-            </p>
-          </div>
-
-          <div
-            css={css`
-              display: grid;
-              grid-template-columns: 50% 50%;
-              grid-template-rows: auto;
-              grid-template-areas:
-                'cecilia ariel'
-                'info info';
-            `}
-          >
-            <div
-              css={css`
-                grid-area: cecilia;
-                padding: 0 0.5rem;
-                text-align: center;
-              `}
-            >
-              <img
-                src={Guests}
-                css={css`
-                  width: 100%;
-                `}
-                alt="Guests"
-              />
-              <h3
-                css={css`
-                  margin-block-end: 0;
-                `}
-              >
-                Matilda
-              </h3>
-            </div>
-            <div
-              css={css`
-                grid-area: ariel;
-                padding: 0 0.5rem;
-                text-align: center;
-              `}
-            >
-              <img
-                src={Guests}
-                css={css`
-                  width: 100%;
-                `}
-                alt="Guests"
-              />
-              <h3
-                css={css`
-                  margin-block-end: 0;
-                `}
-              >
-                Gustav
-              </h3>
-            </div>
-            <p
-              css={css`
-                grid-area: info;
-                margin-block-start: 0;
-                margin-block-end: 0;
-                padding: 1rem 0.5rem;
-              `}
-            >
-              Our hosts will make sure that you have all information you need
-              and will help you will all questions up until the wedding. (they
-              might help you later aswell)
-            </p>
-          </div>
-        </div>
-      </Card>
+      <HostToast />
 
       <Card title="Gifts">
         <div>
           <p>
             We really don’t need more stuff but if you would like to give us a
-            gift we would really appreciate a contribution to our honeymoon. We
-            are going to Piemonte in northern Italy to drink wine and eat white
-            truffle. Later we are going down do Cinque Terre to hike and swim in
-            the ocean and our last days we will spend in Florence. What we are
-            going to do there we don’t know yet...
+            gift we would really appreciate a contribution to our honeymoon.
           </p>
-          <ul>
-            <li>Renting bikes in Piemonte</li>
-            <li>Wine tasting</li>
-            <li>Hiking entrance in Piemonte</li>
-            <li>Flight tickets</li>
-            <li>Climate compensation for out flight</li>
-            <li>Spending a night at a vineyard</li>
-            <li>Truffles, truffles, truffles</li>
-            <li>Hotel nights in Cinque Terre</li>
-            <li>Luxury hotel night in Cinque Terre…</li>
-            <li>Renting a car to drive around in Piemonte</li>
-            <li>Trying dessert wine in Asti</li>
+
+          <p>
+            We are going to Piemonte in northern Italy to eat white truffle,
+            drink whine and enjoy the nature. Later we are going down do Cinque
+            Terre to hike and swim in the ocean and our last days will be spent
+            in Florence.
+          </p>
+
+          <p>
+            Here are some of things you can improve on our honeymoon.
+          </p>
+          <ul
+            css={css`
+              list-style-type: none;
+              padding-inline-start: 0;
+              font-size: 1.1em;
+
+              & > li {
+                padding: 0.2rem;
+              }
+            `}
+          >
+            <li>🚴‍♀ Renting better bikes in Piemonte</li>
+            <li>🍷 More wines to taste</li>
+            <li>🍇 More luxurious vineyard to spend the night at</li>
+            <li>🍄 Truffles, truffles and more truffles</li>
+            <li>🏩 Luxury hotel night in Cinque Terre…</li>
+            <li>🍾 More dessert wine in Asti</li>
+            <li>🌱 Climate compensation for our flight</li>
+            <li>🧞‍♂️ Or something else you think we should do!</li>
           </ul>
         </div>
       </Card>
 
-      <Card title="Dresscode">
-        <p>
-          The dresscode is evening suit or in Swedish mörk kostym. However we
-          are really encouraging smoking. The most important thing is that you
-          feel that you look nice.
-        </p>
-      </Card>
+      <Card title="Dress code">
+        <div
+          css={css`
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: auto;
+            grid-template-areas:
+              'info info'
+              'ladies men'
+              'ladies men';
+          `}
+        >
+          <div
+            css={css`
+              grid-area: info;
+            `}
+          >
+            <p>
+              The formal dress code is evening suit, in Sweden called{' '}
+              <i>"mörk kostym"</i>.
+            </p>
+            <p>
+              Not feeling like wearing what the formal dress code dictates?
+              That's all good, as long as you feel you look good you can come in
+              whatever you like!
+            </p>
+          </div>
 
-      <Card title="Getting there">
-        <div>
-          <p>The boat will pick you up at Nybrokajen</p>
-          <Map />
+          <div
+            css={css`
+              grid-area: 'ladies';
+            `}
+          >
+            <Image publicId={`lisa-default`} width="120" height="120">
+              <Transformation quality="auto" fetchFormat="auto" />
+            </Image>
+            <p>
+              For ladies evening suit traditionally means a dress or skirt in a
+              cloth like silk or velvet.
+            </p>
+          </div>
+
+          <div
+            css={css`
+              grid-area: 'men';
+            `}
+          >
+            <Image
+              publicId={`martin-barksten-default`}
+              width="120"
+              height="120"
+            >
+              <Transformation quality="auto" fetchFormat="auto" />
+            </Image>
+            <p>
+              For men evening suit traditionally means a dark -- but not black
+              -- costume. However, if you have a smoking or have been looking
+              for that time to invest in one -- we encourage you to bring one!
+            </p>
+          </div>
         </div>
       </Card>
     </div>

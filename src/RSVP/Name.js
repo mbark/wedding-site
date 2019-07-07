@@ -105,8 +105,8 @@ function GuestSuggestions({
   highlightedIndex,
   selectedItem,
 }) {
-  const suggestions = guests.filter(
-    guest => !inputValue || guest.name.includes(inputValue),
+  const suggestions = guests.filter(guest =>
+    guest.name.toLowerCase().startsWith(inputValue.toLowerCase()),
   );
 
   if (suggestions.length === 0) {
