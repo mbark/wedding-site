@@ -34,8 +34,7 @@ export default function PersonInfo({ person, onHide }) {
   const isPhone = usePhoneQuery();
   const imageSize = isPhone ? 140 : 240;
 
-  const defaultText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-  do eiusmod tempor incididunt ut labore et dolore magna aliqua.`;
+  const defaultText = `Coming soon... Come back later!`;
 
   return ReactDOM.createPortal(
     <div>

@@ -38,7 +38,7 @@ export default function Info() {
 
           <p>
             We are going to Piemonte in northern Italy to eat white truffle,
-            drink whine and enjoy the nature. Later we are going down do Cinque
+            drink wine and enjoy the nature. Later we are going down do Cinque
             Terre to hike and swim in the ocean and our last days will be spent
             in Florence.
           </p>
@@ -154,9 +154,9 @@ export default function Info() {
               <Transformation quality="auto" fetchFormat="auto" />
             </Image>
             <p>
-              For men evening suit traditionally means a dark -- but not black
-              -- costume. However, if you have a smoking or have been looking
-              for that time to invest in one -- we encourage you to bring one!
+              For men evening suit traditionally means a dark costume. However,
+              if you have a smoking or have been looking for that time to invest
+              in one -- we encourage you to bring one!
             </p>
           </div>
         </div>

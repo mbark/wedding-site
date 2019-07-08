@@ -3,30 +3,43 @@ import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import Card from './Card';
 import Person from '../guests/Person';
+import { useState, useEffect } from 'react';
+import PersonInfo from '../guests/PersonInfo';
 
 export default function HostToast() {
-  const hostToast = {
-    matilda: {
-      id: 'matilda-marin',
-      name: 'Matilda Marin',
-      mailto: 'host',
-    },
-    gustav: {
-      id: 'gustav-marin',
-      name: 'Gustav Marn',
-      mailto: 'host',
-    },
-    cecilia: {
-      id: 'cecilia-molinder',
-      name: 'Cecilia Molinder',
-      mailto: 'toast',
-    },
-    ariel: {
-      id: 'ariel-blomqvist',
-      name: 'Ariel Blomqvist',
-      mailto: 'toast',
-    },
-  };
+  const [hostToasts, setHostToasts] = useState(null);
+  const [expanded, setExpanded] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          '/.netlify/functions/fetchAttendingGuests',
+          { method: 'GET' },
+        );
+
+        const json = await response.json();
+        const persons = json.map(({ data }) => data);
+
+        setHostToasts({
+          matilda: persons.find(({ id }) => id === 'matilda-marin'),
+          gustav: persons.find(({ id }) => id === 'gustav-marin'),
+          cecilia: persons.find(({ id }) => id === 'cecilia-molinder'),
+          ariel: persons.find(({ id }) => id === 'ariel-blomqvist'),
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(hostToasts);
+
+  if (!hostToasts) {
+    return <div />;
+  }
 
   const PersonPicture = ({ name }) => (
     <div
@@ -37,12 +50,10 @@ export default function HostToast() {
       `}
     >
       <Person
-        person={hostToast[name]}
+        person={hostToasts[name]}
         isExpanded={false}
-        onClick={() => {
-          window.location.href = `mailto:${
-            hostToast[name].mailto
-          }@lisamartin.wedding`;
+        onClick={person => {
+          setExpanded(hostToasts[name]);
         }}
       />
     </div>
@@ -91,6 +102,7 @@ export default function HostToast() {
 
   return (
     <Card title="Hosts and toasts">
+      <PersonInfo person={expanded} onHide={() => setExpanded(null)} />
       <Grid name1="matilda" name2="gustav" mail="hosts">
         These are our incredible hosts who will ensure you have all the
         information you need up until the dinner starts. If you have questions

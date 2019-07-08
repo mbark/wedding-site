@@ -60,6 +60,10 @@ export default function App() {
               color: ${theme.colors.red.string()};
               font-family: ${theme.fonts.openSans};
               margin-bottom: ${navbarHeight};
+
+              @media (min-width: ${theme.media.phone}px) {
+                margin-bottom: 0;
+              } 
             }
 
             h1, h2, h3, h4, h5 {
