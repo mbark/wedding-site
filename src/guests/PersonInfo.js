@@ -4,6 +4,7 @@ import { animated, useTransition } from 'react-spring';
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import { Image } from 'cloudinary-react';
+import { usePhoneQuery } from './Person';
 
 function HideOverlay({ onHide }) {
   return (
@@ -30,6 +31,9 @@ export default function PersonInfo({ person, onHide }) {
     leave: { opacity: 0, transform: 'translate(-50%,-80%)' },
   });
 
+  const isPhone = usePhoneQuery();
+  const imageSize = isPhone ? 140 : 240;
+
   const defaultText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
   do eiusmod tempor incididunt ut labore et dolore magna aliqua.`;
 
@@ -47,8 +51,8 @@ export default function PersonInfo({ person, onHide }) {
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                width: 320px;
-                height: 200px;
+                min-width: 320px;
+                min-height: 200px;
                 border: 1px solid ${theme.colors.red.string()};
                 border-radius: 4px;
                 box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
@@ -66,7 +70,7 @@ export default function PersonInfo({ person, onHide }) {
                   margin-right: 1rem;
                 `}
               >
-                <Image publicId={`${item.id}-more`} width="140" height="140" />
+                <Image publicId={`${item.id}-more`} width={imageSize} height={imageSize} />
               </div>
               <div
                 css={css`

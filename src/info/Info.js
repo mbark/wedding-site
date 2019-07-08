@@ -5,8 +5,18 @@ import Day from './Day';
 import HostToast from './HostToast';
 import Card from './Card';
 import { Image, Transformation } from 'cloudinary-react';
+import { usePhoneQuery } from '../guests/Person';
 
 export default function Info() {
+  const isPhone = usePhoneQuery();
+  const imageSize = isPhone ? 120 : 180;
+
+  const Emoji = ({ emoji, label }) => (
+    <span role="img" aria-label={label}>
+      {emoji}
+    </span>
+  );
+
   return (
     <div
       css={css`
@@ -33,9 +43,7 @@ export default function Info() {
             in Florence.
           </p>
 
-          <p>
-            Here are some of things you can improve on our honeymoon.
-          </p>
+          <p>Here are some of things you can improve on our honeymoon.</p>
           <ul
             css={css`
               list-style-type: none;
@@ -47,14 +55,36 @@ export default function Info() {
               }
             `}
           >
-            <li>🚴‍♀ Renting better bikes in Piemonte</li>
-            <li>🍷 More wines to taste</li>
-            <li>🍇 More luxurious vineyard to spend the night at</li>
-            <li>🍄 Truffles, truffles and more truffles</li>
-            <li>🏩 Luxury hotel night in Cinque Terre…</li>
-            <li>🍾 More dessert wine in Asti</li>
-            <li>🌱 Climate compensation for our flight</li>
-            <li>🧞‍♂️ Or something else you think we should do!</li>
+            <li>
+              <Emoji emoji="🚴‍♀" label="bike" /> Renting better bikes in
+              Piemonte
+            </li>
+            <li>
+              <Emoji emoji="🍷" label="wine" /> More wines to taste
+            </li>
+            <li>
+              <Emoji emoji="🍇" label="grape" /> More luxurious vineyard to
+              spend the night at
+            </li>
+            <li>
+              <Emoji emoji="🍄" label="truffle" /> Truffles, truffles and more
+              truffles
+            </li>
+            <li>
+              <Emoji emoji="🏩" label="hotel" /> Luxury hotel night in Cinque
+              Terre…
+            </li>
+            <li>
+              <Emoji emoji="🍾" label="wine bottle" /> More dessert wine in Asti
+            </li>
+            <li>
+              <Emoji emoji="🌱" label="plant" /> Climate compensation for our
+              flight
+            </li>
+            <li>
+              <Emoji emoji="🧞‍♂️" label="genius" /> Or something else you think we
+              should do!
+            </li>
           </ul>
         </div>
       </Card>
@@ -89,10 +119,17 @@ export default function Info() {
 
           <div
             css={css`
-              grid-area: 'ladies';
+              grid-area: ladies;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
             `}
           >
-            <Image publicId={`lisa-default`} width="120" height="120">
+            <Image
+              publicId={`lisa-default`}
+              width={imageSize}
+              height={imageSize}
+            >
               <Transformation quality="auto" fetchFormat="auto" />
             </Image>
             <p>
@@ -103,13 +140,16 @@ export default function Info() {
 
           <div
             css={css`
-              grid-area: 'men';
+              grid-area: men;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
             `}
           >
             <Image
               publicId={`martin-barksten-default`}
-              width="120"
-              height="120"
+              width={imageSize}
+              height={imageSize}
             >
               <Transformation quality="auto" fetchFormat="auto" />
             </Image>

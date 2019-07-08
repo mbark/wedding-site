@@ -2,7 +2,6 @@ import faunadb from 'faunadb';
 import dotenv from 'dotenv';
 
 dotenv.config();
-console.log('FAUNADB', process.env.FAUNADB_SECRET);
 
 const q = faunadb.query;
 const secret = process.env.FAUNADB_SECRET;

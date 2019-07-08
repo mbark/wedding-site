@@ -103,7 +103,7 @@ export default function App() {
                 position: relative;
                 display: flex;
                 flex-direction: column;
-                padding-bottom: ${navbarHeight};
+                padding-bottom: 1rem;
 
                 @media (min-width: ${theme.media.phone}px) {
                   padding-top: ${navbarHeight};

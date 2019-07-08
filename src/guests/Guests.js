@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
-import Person from './Person';
+import Person, { usePhoneQuery } from './Person';
 import PersonInfo from './PersonInfo';
 
 export default function Guests() {
@@ -20,9 +20,9 @@ export default function Guests() {
         );
 
         const json = await response.json();
-        const persons = json.map(({ data }) => data);
-
-        console.log(persons);
+        const persons = json
+          .map(({ data }) => data)
+          .filter(({ isAttending }) => isAttending);
 
         const isUs = ({ id }) => id === 'martin-barksten' || id === 'lisa';
         const us = persons.filter(isUs);
@@ -52,6 +52,8 @@ export default function Guests() {
     fetchData();
   }, []);
 
+  const isPhone = usePhoneQuery();
+
   return (
     <div>
       <h1
@@ -71,8 +73,11 @@ export default function Guests() {
           css={css`
             margin: 0 1rem;
             display: grid;
-            grid-template-columns: repeat(auto-fit, 160px);
-            grid-auto-rows: 160px;
+            grid-template-columns: repeat(
+              auto-fit,
+              minmax(${isPhone ? 120 : 180}px, 1fr)
+            );
+            grid-auto-rows: auto;
             grid-gap: 20px;
           `}
         >

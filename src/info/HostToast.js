@@ -6,10 +6,26 @@ import Person from '../guests/Person';
 
 export default function HostToast() {
   const hostToast = {
-    matilda: { id: 'matilda-marin', name: 'Matilda Marin' },
-    gustav: { id: 'gustav-marin', name: 'Gustav Marn' },
-    cecilia: { id: 'cecilia-molinder', name: 'Cecilia Molinder' },
-    ariel: { id: 'ariel-blomqvist', name: 'Ariel Blomqvist' },
+    matilda: {
+      id: 'matilda-marin',
+      name: 'Matilda Marin',
+      mailto: 'host',
+    },
+    gustav: {
+      id: 'gustav-marin',
+      name: 'Gustav Marn',
+      mailto: 'host',
+    },
+    cecilia: {
+      id: 'cecilia-molinder',
+      name: 'Cecilia Molinder',
+      mailto: 'toast',
+    },
+    ariel: {
+      id: 'ariel-blomqvist',
+      name: 'Ariel Blomqvist',
+      mailto: 'toast',
+    },
   };
 
   const PersonPicture = ({ name }) => (
@@ -20,7 +36,15 @@ export default function HostToast() {
         text-align: center;
       `}
     >
-      <Person person={hostToast[name]} isExpanded={false} onClick={() => {}} />
+      <Person
+        person={hostToast[name]}
+        isExpanded={false}
+        onClick={() => {
+          window.location.href = `mailto:${
+            hostToast[name].mailto
+          }@lisamartin.wedding`;
+        }}
+      />
     </div>
   );
 

@@ -32,6 +32,10 @@ export default function Card({ title, children }) {
           margin-block-end: 0;
           background-color: ${theme.colors.peachRed.string()};
           padding: 1rem;
+
+          @media (min-width: ${theme.media.phone}px) {
+            bottom: 0;
+          }
         `}
       >
         {title}

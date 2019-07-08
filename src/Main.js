@@ -4,7 +4,7 @@ import css from '@emotion/css/macro';
 import { Route, Switch } from 'react-router-dom';
 import { useTransition, animated } from 'react-spring';
 import Frontpage from './Frontpage';
-import RSVP  from './RSVP/RSVP';
+import RSVP from './RSVP/RSVP';
 import { usePrevious } from './hooks';
 import Guests from './guests/Guests';
 import useRouter from './useRouter';
@@ -39,8 +39,14 @@ export default function Main() {
 
   return (
     <div
-      css={css`
+      css={theme => css`
         position: relative;
+
+        @media (min-width: ${theme.media.phone}px) {
+          align-self: center;
+          max-width: ${theme.media.tablet}px;
+          min-width: ${theme.media.phone}px;
+        }
       `}
     >
       {transitions.map(({ item, props, key }) => (

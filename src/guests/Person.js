@@ -4,9 +4,21 @@ import { animated, useSpring } from 'react-spring';
 import css from '@emotion/css/macro';
 import { Image, Transformation } from 'cloudinary-react';
 import LazyLoad from 'react-lazyload';
+import theme from '../theme';
+import { useMemo } from 'react';
+
+export function usePhoneQuery() {
+  return useMemo(
+    () => window.matchMedia(`(max-width: ${theme.media.phone - 1}px)`).matches,
+    [],
+  );
+}
 
 export default function Person({ person, isExpanded, onClick }) {
   const props = useSpring({ x: isExpanded ? 0 : 1 });
+
+  const isPhone = usePhoneQuery();
+  const imageSize = isPhone ? 120 : 180;
 
   const range = [0, 0.5, 1];
   const style = {
@@ -26,50 +38,47 @@ export default function Person({ person, isExpanded, onClick }) {
   return (
     <div
       css={css`
-        grid-column-end: span 1;
-        grid-row-end: span 1;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
       `}
       onClick={onClick}
     >
-      <div
-        css={css`
-          height: 100%;
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
+      <animated.div
+        style={style}
+        css={theme => css`
+          height: ${imageSize}px;
+          width: ${imageSize}px;
+          border-radius: 100%;
+          overflow: hidden;
+          border: 1px solid ${theme.colors.red.string()};
+          box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
         `}
       >
-        <animated.div
-          style={style}
-          css={theme => css`
-            height: 120px;
-            width: 120px;
-            border-radius: 100%;
-            overflow: hidden;
-            border: 1px solid ${theme.colors.red.string()};
-            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-          `}
-        >
-          <LazyLoad height={120}>
-            <Image publicId={`${person.id}-default`} width="120" height="120">
-              <Transformation quality="auto" fetchFormat="auto" />
-            </Image>
-          </LazyLoad>
-        </animated.div>
+        <LazyLoad height={imageSize}>
+          <Image
+            publicId={`${person.id}-default`}
+            width={imageSize}
+            height={imageSize}
+          >
+            <Transformation quality="auto" fetchFormat="auto" />
+          </Image>
+        </LazyLoad>
+      </animated.div>
 
-        <h4
-          css={theme => css`
-            margin-top: 0.5rem;
-            margin-bottom: 0rem;
-            font-family: ${theme.fonts.openSans};
-            text-transform: none;
-            text-align: center;
-          `}
-        >
-          {person.name.split(' ')[0]}
-        </h4>
-      </div>
+      <h4
+        css={theme => css`
+          margin-top: 0.5rem;
+          margin-bottom: 0rem;
+          font-family: ${theme.fonts.openSans};
+          text-transform: none;
+          text-align: center;
+        `}
+      >
+        {person.name.split(' ')[0]}
+      </h4>
     </div>
   );
 }
