@@ -42,9 +42,7 @@ export default function Person({ person, isExpanded, onClick }) {
         display: flex;
         flex-direction: column;
         align-items: center;
-        cursor: pointer;
       `}
-      onClick={onClick}
     >
       <animated.div
         style={style}
@@ -55,7 +53,9 @@ export default function Person({ person, isExpanded, onClick }) {
           overflow: hidden;
           border: 1px solid ${theme.colors.red.string()};
           box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+          cursor: pointer;
         `}
+        onClick={onClick}
       >
         <LazyLoad height={imageSize}>
           <Image

@@ -154,9 +154,9 @@ export default function Info() {
               <Transformation quality="auto" fetchFormat="auto" />
             </Image>
             <p>
-              For men evening suit traditionally means a dark costume. However,
-              if you have a smoking or have been looking for that time to invest
-              in one -- we encourage you to bring one!
+              For men evening suit traditionally means a dark suit. However, if
+              you have a smoking or have been looking for that time to invest in
+              one -- we encourage you to bring one!
             </p>
           </div>
         </div>
