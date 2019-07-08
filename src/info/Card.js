@@ -19,6 +19,7 @@ export default function Card({ title, children }) {
       <div
         css={css`
           padding: 1rem 1rem 0 1rem;
+          border-radius: 4px;
         `}
       >
         {children}
@@ -32,6 +33,7 @@ export default function Card({ title, children }) {
           margin-block-end: 0;
           background-color: ${theme.colors.peachRed.string()};
           padding: 1rem;
+          border-radius: 4px;
 
           @media (min-width: ${theme.media.phone}px) {
             bottom: 0;

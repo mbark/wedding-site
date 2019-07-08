@@ -54,7 +54,7 @@ export default function Day() {
         <TimePoint
           time="4 PM"
           title="Boat leaves for Ekensdal"
-          info="The boat leaves at 4 PM sharp, so be there!"
+          info="Our hosts, Matilda and Gustav, will meet you by the boat. The boat departs at 4 PM sharp, so be there!"
         />
 
         <TimePoint
