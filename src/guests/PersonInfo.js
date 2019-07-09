@@ -5,24 +5,7 @@ import { jsx } from '@emotion/core';
 import css from '@emotion/css/macro';
 import { Image } from 'cloudinary-react';
 import { usePhoneQuery } from './Person';
-
-function HideOverlay({ onHide }) {
-  return (
-    <div
-      onClick={onHide}
-      css={css`
-        position: fixed;
-        height: 100%;
-        width: 100%;
-        top: 0;
-        left: 0;
-        z-index: 100;
-        background-color: black;
-        opacity: 0.2;
-      `}
-    />
-  );
-}
+import HideOverlay from '../HideOverlay';
 
 export default function PersonInfo({ person, onHide }) {
   const transitions = useTransition(person, null, {

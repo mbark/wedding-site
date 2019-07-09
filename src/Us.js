@@ -86,7 +86,7 @@ export default function Us() {
                   margin: 0;
                 `}
               >
-                September 28
+                Saturday September 28th, 2019
               </p>
             </animated.div>
           </div>

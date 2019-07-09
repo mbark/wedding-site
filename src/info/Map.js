@@ -4,8 +4,9 @@ import {
   GoogleMap,
   Marker,
 } from 'react-google-maps';
-import Hosts from '../resources/images/hosts.png';
 import React from 'react';
+import ReactDOM from 'react-dom';
+import HideOverlay from '../HideOverlay';
 
 const googleMapStyle = [
   {
@@ -38,20 +39,18 @@ const googleMapStyle = [
   },
 ];
 
-const markerIcon = { url: Hosts, scaledSize: { width: 128, height: 128 } };
-
 const Component = withScriptjs(
-  withGoogleMap(props => (
+  withGoogleMap(({location, toggleOpen, markerImg, markerTitle }) => (
     <GoogleMap
       defaultZoom={14}
-      defaultCenter={props.location}
+      defaultCenter={location}
       defaultOptions={{ styles: googleMapStyle }}
     >
       <Marker
-        position={props.location}
-        onClick={props.toggleOpen}
-        title="Our hosts"
-        icon={markerIcon}
+        position={location}
+        onClick={toggleOpen}
+        title={markerTitle}
+        icon={{ url: markerImg, scaledSize: { width: 128, height: 128 } }}
       />
     </GoogleMap>
   )),
@@ -80,11 +79,14 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-export default function Map() {
-  const location = { lat: 59.332387, lng: 18.076871 };
+export default function Map({ show, onHide, ...props }) {
   const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
-  return apiKey ? (
+  if (!apiKey || !show) {
+    return <div />;
+  }
+
+  return ReactDOM.createPortal(
     <ErrorBoundary>
       <Component
         isMarkerShown
@@ -93,17 +95,20 @@ export default function Map() {
         containerElement={
           <div
             style={{
-              height: `400px`,
-              margin: '-1rem -1rem 0 -1rem',
-              borderRadius: '4px',
+              height: '60%',
+              width: '100vw',
+              position: 'fixed',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: 1000,
             }}
           />
         }
         mapElement={<div style={{ height: `100%` }} />}
-        location={location}
+        {...props}
       />
-    </ErrorBoundary>
-  ) : (
-    <div />
+      <HideOverlay onHide={onHide} />
+    </ErrorBoundary>,
+    document.body,
   );
 }
