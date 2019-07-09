@@ -104,15 +104,15 @@ export default function HostToast() {
     <Card title="Hosts and toasts">
       <PersonInfo person={expanded} onHide={() => setExpanded(null)} />
       <Grid name1="matilda" name2="gustav" mail="hosts">
-        These are our incredible hosts who will ensure you have all the
-        information you need up until the dinner starts. If you have questions
-        direct it to them.
+        Matila and Gustav are our incredible hosts who will ensure you have all
+        the information you need up until the dinner starts. If you have
+        questions, they are happy to help!
       </Grid>
 
       <Grid name1="cecilia" name2="ariel" mail="toasts">
-        These are our lovely toastmasters who will ensure an epic and fabolous
-        dinner! If you wish to hold a speech or do something else fun during the
-        dinner get in touch with them.
+        Cecilia and Ariel are our lovely toastmasters who will ensure an epic
+        and fabulous dinner! If you wish to make speech or do something else fun
+        during the dinner get in touch with them.
       </Grid>
     </Card>
   );

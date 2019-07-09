@@ -32,8 +32,33 @@ export default function Info() {
       <Card title="Gifts">
         <div>
           <p>
-            We really don’t need more stuff but if you would like to give us a
-            gift we would really appreciate a contribution to our honeymoon.
+            If you would like to give a gift then we would appreciate a
+            contribution to our honeymoon as don't need any more stuff.
+          </p>
+
+          <p>
+            To contribute to our honeymoon either:
+            <ul>
+              <li>
+                Send a Swish to 073 717 84 28 (belonging to Gustav Marin) and in
+                the comment add your name and optionally if you want it go to
+                something specific.
+              </li>
+              <li>
+                Or if you don't have Swish send{' '}
+                <a
+                  css={({ colors }) => css`
+                    color: ${colors.darkGreen.string()};
+                    font-weight: bold;
+                    margin-top: 4px;
+                  `}
+                  href="mailto:hosts@lisamartin.wedding"
+                >
+                  Gustav & Matilda
+                </a>{' '}
+                an email and they can help you out!
+              </li>
+            </ul>
           </p>
 
           <p>
@@ -43,7 +68,7 @@ export default function Info() {
             in Florence.
           </p>
 
-          <p>Here are some of things you can improve on our honeymoon.</p>
+          <p>Here are some of things you can dedicate your gift to.</p>
           <ul
             css={css`
               list-style-type: none;
@@ -96,27 +121,10 @@ export default function Info() {
             grid-template-columns: 50% 50%;
             grid-template-rows: auto;
             grid-template-areas:
-              'info info'
               'ladies men'
-              'ladies men';
+              'info info';
           `}
         >
-          <div
-            css={css`
-              grid-area: info;
-            `}
-          >
-            <p>
-              The formal dress code is evening suit, in Sweden called{' '}
-              <i>"mörk kostym"</i>.
-            </p>
-            <p>
-              Not feeling like wearing what the formal dress code dictates?
-              That's all good, as long as you feel you look good you can come in
-              whatever you like!
-            </p>
-          </div>
-
           <div
             css={css`
               grid-area: ladies;
@@ -132,10 +140,6 @@ export default function Info() {
             >
               <Transformation quality="auto" fetchFormat="auto" />
             </Image>
-            <p>
-              For ladies evening suit traditionally means a dress or skirt in a
-              cloth like silk or velvet.
-            </p>
           </div>
 
           <div
@@ -153,10 +157,20 @@ export default function Info() {
             >
               <Transformation quality="auto" fetchFormat="auto" />
             </Image>
+          </div>
+          <div
+            css={css`
+              grid-area: info;
+            `}
+          >
             <p>
-              For men evening suit traditionally means a dark suit. However, if
-              you have a smoking or have been looking for that time to invest in
-              one -- we encourage you to bring one!
+              The formal dress code is evening suit, in Sweden called{' '}
+              <i>"mörk kostym"</i>.
+            </p>
+            <p>
+              Not feeling like wearing what the formal dress code dictates?
+              That's all good, as long as you feel you look good you can come in
+              whatever you like!
             </p>
           </div>
         </div>

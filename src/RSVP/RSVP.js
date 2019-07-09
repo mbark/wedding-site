@@ -115,7 +115,22 @@ export default function RSVP() {
         height: 100%;
       `}
     >
-      <h1>RSVP</h1>
+      <h1
+        css={css`
+          margin-bottom: 0.5rem;
+        `}
+      >
+        RSVP
+      </h1> 
+      <p
+        css={css`
+          margin-bottom: 2rem;
+          margin-block-start: 0;
+        `}
+      >
+        <i>Répondez s'il vous plaît</i>, meaning "please respond". Last date to
+        respond is <b>28th of August</b>.
+      </p> 
       <form
         method="post"
         {...formal.getFormProps()}

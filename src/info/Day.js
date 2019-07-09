@@ -22,7 +22,16 @@ export default function Day() {
         >
           {time}
         </div>
-        {location && (
+        {location && !mapProps && (
+          <span
+            css={css`
+              font-size: 0.9em;
+            `}
+          >
+            {location}
+          </span>
+        )}
+        {location && mapProps && (
           <div
             onClick={() => setMapProps(mapProps)}
             css={({ colors }) => css`
@@ -97,17 +106,18 @@ export default function Day() {
             markerImg: Hosts,
             markerTitle: 'Gustav och Matilda',
           }}
-          title="Boat leaves for Ekensdal"
+          title="The boat leaves for Ekensdal"
           info={`
           Our hosts, Matilda and Gustav, will meet you by the boat.
-          The boat departs at 16:00 sharp, so be there!
-          The exact location on Nybrokajen will be added when we ourselves know.`}
+          The boat departs at 16:00 sharp, so be on time!
+          The exact location at Nybrokajen will be added later.`}
         />
 
         <TimePoint
           time="17:00"
           title="Wedding ceremony"
-          info="There will be canapés to eat and cava to drink at the boat."
+          location="On the boat"
+          info="Cava and canapés will be served."
         />
 
         <TimePoint
@@ -132,9 +142,8 @@ export default function Day() {
 
         <TimePoint
           time="02:00"
-          title="Bus leaves from Ekensdal"
-          info="
-        The bus will go to Brunkebergs torg. If you want to leave earlier there will be taxis."
+          title="The bus leaves from Ekensdal"
+          info="The bus will go to Brunkebergs torg. If you want to leave earlier there is public transportation or taxis."
         />
       </dl>
     </Card>
