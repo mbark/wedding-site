@@ -126,6 +126,7 @@ function GuestSuggestions({
     <div
       css={theme => css`
         color: ${theme.colors.black.string()};
+        cursor: pointer;
         padding: 0.5rem;
       `}
       {...getItemProps({

@@ -10,7 +10,7 @@ const client = new faunadb.Client({ secret });
 exports.handler = async (event, context) => {
   try {
     const response = await client.query(
-      q.Paginate(q.Match(q.Ref('indexes/guest_name_and_id'))),
+      q.Paginate(q.Match(q.Ref('indexes/guest_name_and_id')), { size: 100 }),
     );
     return {
       statusCode: 200,
