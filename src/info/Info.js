@@ -33,7 +33,7 @@ export default function Info() {
         <div>
           <p>
             If you would like to give a gift then we would appreciate a
-            contribution to our honeymoon as don't need any more stuff.
+            contribution to our honeymoon as we don't need any more stuff.
           </p>
 
           <p>
