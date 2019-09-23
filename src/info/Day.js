@@ -109,8 +109,7 @@ export default function Day() {
           title="The boat leaves for Ekensdal"
           info={`
           Our hosts, Matilda and Gustav, will meet you by the boat.
-          The boat departs at 16:00 sharp, so be on time!
-          The exact location at Nybrokajen will be added later.`}
+          The boat departs at 16:00 sharp, so be on time!`}
         />
 
         <TimePoint
