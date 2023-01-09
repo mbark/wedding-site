@@ -11,7 +11,7 @@
     "downshift": "^3.2.10",
     "emotion-theming": "^10.0.10",
     "faunadb": "^2.6.1",
-    "luxon": "^1.13.2",
+    "luxon": "^1.28.1",
     "normalize.css": "^8.0.1",
     "prettier": "^1.17.1",
     "react": "^16.8.6",
